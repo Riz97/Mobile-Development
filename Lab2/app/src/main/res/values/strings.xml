@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Counter Application</string>
+    <string name="value">Value = 0</string>
+</resources>
