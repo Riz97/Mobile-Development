@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".InternationalCall">
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="85dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="64dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.189"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UselessLeaf,TextSizeCheck">
+
+        <RadioButton
+            android:id="@+id/radioButtonIta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:onClick="choosePrefix"
+            android:text="+39"
+            tools:ignore="DuplicateSpeakableTextCheck,HardcodedText" />
+
+        <RadioButton
+            android:id="@+id/radioButtonGer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="choosePrefix"
+            android:text="+49"
+            tools:ignore="HardcodedText" />
+
+        <RadioButton
+            android:id="@+id/radioButtonFr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:onClick="choosePrefix"
+            android:text="+33"
+            tools:ignore="HardcodedText" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="49dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="192dp"
+        android:text="Italy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.478"
+        app:layout_constraintStart_toEndOf="@+id/radioGroup"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText,TextSizeCheck" />
+
+    <TextView
+        android:id="@+id/textViewGer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="192dp"
+        android:text="Germany"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/textViewFr"
+        android:layout_width="59dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="28dp"
+        android:text="France"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.038"
+        app:layout_constraintStart_toEndOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/textViewGer"
+        tools:ignore="HardcodedText,TextSizeCheck" />
+
+    <Button
+        android:id="@+id/buttonInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="244dp"
+        android:layout_marginEnd="64dp"
+        android:onClick="linkWiki"
+        android:text="FIND INFO"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+</androidx.constraintlayout.widget.ConstraintLayout>
