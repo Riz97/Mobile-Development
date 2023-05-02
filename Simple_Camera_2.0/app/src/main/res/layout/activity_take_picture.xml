@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TakePicture">
+
+    <Button
+
+        android:id="@+id/buttonClick"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@android:drawable/ic_menu_camera"
+        android:onClick="click"
+        android:text="CLICK"
+        android:textColor="#293993"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.05"
+        tools:ignore="HardcodedText,RtlHardcoded" />
+
+    <ImageView
+        android:id="@+id/imageViewCameraLatest"
+        android:layout_width="225dp"
+        android:layout_height="174dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonClick"
+        app:layout_constraintVertical_bias="0.284"
+        tools:ignore="ContentDescription,ImageContrastCheck"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/imageViewOlder"
+        android:layout_width="231dp"
+        android:layout_height="186dp"
+        android:layout_marginTop="408dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/buttonSaveLastPhoto"
+        android:layout_width="118dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="28dp"
+        android:text="SAVE(INT)"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewCameraLatest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.054"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonClick"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/buttonSaveExt"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="28dp"
+        android:onClick="click"
+        android:text="SAVE(EXT)"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewCameraLatest"
+        app:layout_constraintStart_toEndOf="@+id/buttonSaveLastPhoto"
+        app:layout_constraintTop_toBottomOf="@+id/buttonClick"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/buttonSaveSD"
+        android:layout_width="115dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="28dp"
+        android:onClick="click"
+        android:text="SAVE(EXT SD)"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewCameraLatest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonClick"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="HardcodedText" />
+</androidx.constraintlayout.widget.ConstraintLayout>
