@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Android AsyncTask</string>
+    <string name="generate_random_string">GENERATE RANDOM STRING</string>
+</resources>
