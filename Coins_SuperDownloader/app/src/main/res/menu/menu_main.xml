@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.coinssuperdownloader.MainActivity" >
+    <item android:id="@+id/action_serial"
+        android:title="Serial Download Images"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_parallel"
+        android:title="Parallel Download Images"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_reset"
+        android:title="Reset Images"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+</menu>
