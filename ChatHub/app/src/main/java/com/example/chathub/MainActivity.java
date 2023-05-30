@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 // Login window
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +26,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent signinIntent = new Intent(MainActivity.this, SigninActivity.class);
                 startActivity(signinIntent);
+            }
+        });
+
+
+        // Click Listener Sign In button:
+        Button loginButton = (Button)findViewById(R.id.buttonLogin);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseDatabase db = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = db.getReference("Message");
+                myRef.setValue(myRef, "Ciao");
             }
         });
     }
