@@ -58,24 +58,25 @@ public class MainActivity extends AppCompatActivity {
                 final String userEnteredUsername = editUsername.getText().toString().trim();
                 final String userEnteredPassword = editPassword.getText().toString().trim();
                 DatabaseReference reference = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Users");
-                Log.d(LOG_TAG,reference.child("/").toString());
-                Query checkUser = reference.child("/").equalTo(userEnteredUsername);
+                Query checkUser = reference.orderByChild("username").equalTo(userEnteredUsername);
                 checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
+                            Log.d(LOG_TAG,"sono qua");
                             String passwordFromDB = dataSnapshot.child(userEnteredUsername).child("password").getValue(String.class);
                             if (passwordFromDB.equals(userEnteredPassword)) {
                                 Intent signinIntent = new Intent(MainActivity.this, ChatActivity.class);
-                                startActivity(signinIntent);
-                            } else {
+                                startActivity(signinIntent);  }
+
+                            else {
                                 editPassword.setError("Wrong Password");
                                 editPassword.requestFocus();
                             }
                         } else {
                             editUsername.setError("No such User exist");
                             editUsername.requestFocus();
-                        }
+                       }
 
 
 

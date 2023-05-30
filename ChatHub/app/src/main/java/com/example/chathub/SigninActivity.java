@@ -1,5 +1,6 @@
 package com.example.chathub;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -10,8 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.UUID;
 
 public class SigninActivity extends AppCompatActivity {
     private static final String LOG_TAG = SigninActivity.class.getSimpleName();
@@ -45,10 +52,14 @@ public class SigninActivity extends AppCompatActivity {
                 String username = editUsername.getText().toString();
                 String confirmPsw = editConfirm.getText().toString();
 
+
+
+
                 if(password.equals(confirmPsw))
                 {
                     newUser = new User(username,password);
                     databaseReference.child(username).child("password").setValue(password);
+                    databaseReference.child(username).child("username").setValue(username);
                     Toast.makeText(SigninActivity.this,"Profile Created Successfully",Toast.LENGTH_LONG).show();
                 }
 
@@ -57,7 +68,7 @@ public class SigninActivity extends AppCompatActivity {
 
                     Toast.makeText(SigninActivity.this," Error : Inserted Password do not correspond",Toast.LENGTH_LONG).show();
 
-                    Log.d(LOG_TAG,"sono qua");
+
                 }
 
 
