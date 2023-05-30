@@ -26,7 +26,8 @@
             android:id="@+id/imageViewLogo"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            app:srcCompat="@drawable/ic_launcher_foreground" />
+            app:srcCompat="@drawable/ic_launcher_foreground"
+            tools:ignore="ContentDescription,ImageContrastCheck" />
 
         <Space
             android:layout_width="0dp"
@@ -41,7 +42,8 @@
             android:layout_height="80dp"
             android:ems="10"
             android:inputType="text"
-            android:hint="Username" />
+            android:hint="Username"
+            tools:ignore="Autofill,HardcodedText" />
 
         <Space
             android:layout_width="0dp"
@@ -55,7 +57,8 @@
             android:layout_height="80dp"
             android:ems="10"
             android:inputType="textPassword"
-            android:hint="Password" />
+            android:hint="Password"
+            tools:ignore="Autofill,HardcodedText" />
 
         <Space
             android:layout_width="0dp"
@@ -68,7 +71,8 @@
             android:layout_width="200dp"
             android:layout_height="60dp"
             android:text="Login"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:ignore="HardcodedText" />
 
         <Space
             android:layout_width="0dp"
@@ -81,7 +85,8 @@
             android:layout_width="200dp"
             android:layout_height="60dp"
             android:text="Sign In"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:ignore="HardcodedText" />
 
         <Space
             android:layout_width="0dp"
