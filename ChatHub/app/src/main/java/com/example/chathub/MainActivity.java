@@ -10,6 +10,10 @@ import android.widget.Button;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+
+
+
+
 // Login window
 public class MainActivity extends AppCompatActivity {
 
@@ -35,9 +39,10 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseDatabase db = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = db.getReference("Message");
-                myRef.setValue(myRef, "Ciao");
+                FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
+                DatabaseReference myRef = database.getReference("message");
+
+                myRef.setValue("Hello, World!");
             }
         });
     }
