@@ -11,28 +11,10 @@
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="5dp"
         android:layout_marginTop="0dp"
-        android:background="#075e54"
+        android:background="@color/purple_500"
         android:id="@+id/toolbar">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="MyChatApp"
-                android:textSize="20sp"
-                android:id="@+id/myapptext"
-                android:textStyle="bold"
-                android:textColor="@color/white">
-
-            </TextView>
-
-
-        </RelativeLayout>
 
 
     </androidx.appcompat.widget.Toolbar>
@@ -45,7 +27,7 @@
         app:tabTextColor="#77a3a7"
         app:tabSelectedTextColor="@color/white"
         app:tabIndicatorColor="@color/white"
-        android:backgroundTint="#075e54"
+        android:backgroundTint="@color/purple_500"
         app:tabIndicatorHeight="3dp"
         android:layout_marginTop="0dp"
         >
@@ -70,10 +52,31 @@
 
     </androidx.viewpager.widget.ViewPager>
 
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="bottom">
 
+        <Button
+            android:id="@+id/buttonLogout"
+            android:layout_width="130dp"
+            android:layout_height="60dp"
+            android:text="Logout"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40sp"
+            android:layout_marginBottom="20sp"
+            android:textSize="16sp"/>
 
+        <Button
+            android:id="@+id/buttonNewChat"
+            android:layout_width="130dp"
+            android:layout_height="60dp"
+            android:text="New Chat"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="40sp"
+            android:layout_marginBottom="20sp"
+            android:textSize="16sp"/>
 
-
-
+    </RelativeLayout>
 
 </RelativeLayout>

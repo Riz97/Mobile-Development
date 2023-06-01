@@ -28,7 +28,7 @@ public class ChatListActivity extends AppCompatActivity {
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
 
-        /*
+
         // Click Listener for the "New Chat" button
         Button newChatButton = (Button) findViewById(R.id.buttonNewChat);
         newChatButton.setOnClickListener(new View.OnClickListener() {
@@ -52,7 +52,7 @@ public class ChatListActivity extends AppCompatActivity {
                 preferencesEditor.clear();
                 preferencesEditor.apply();
             }
-        }); */
+        });
 
 
         int logged = mPreferences.getInt("logged", 0);
