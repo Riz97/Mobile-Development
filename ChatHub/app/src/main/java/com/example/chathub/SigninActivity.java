@@ -86,6 +86,8 @@ public class SigninActivity extends AppCompatActivity {
                     newUser = new User(username, password);
                     databaseReference.child(username).child("password").setValue(password);
                     databaseReference.child(username).child("username").setValue(username);
+                    Intent signinIntent = new Intent(SigninActivity.this, MainActivity.class);
+                    startActivity(signinIntent);
                     Toast.makeText(SigninActivity.this, "Profile Created Successfully", Toast.LENGTH_LONG).show();
                } else {
                     Toast.makeText(SigninActivity.this, " Error : Inserted Password do not correspond", Toast.LENGTH_LONG).show();
