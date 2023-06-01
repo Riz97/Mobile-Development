@@ -42,6 +42,15 @@
 
     </com.google.android.material.tabs.TabLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvContacts"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
@@ -51,6 +60,44 @@
         android:id="@+id/fragmentcontainer">
 
     </androidx.viewpager.widget.ViewPager>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="80dp"
+        android:paddingBottom="10dp"
+        >
+
+        <TextView
+            android:id="@+id/contact_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="User Name"
+            />
+
+        <TextView
+            android:id="@+id/user_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="User Status"
+            />
+
+        <Button
+            android:id="@+id/message_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textSize="10sp"
+            android:text="Message"
+            />
+    </LinearLayout>
+
+
 
     <RelativeLayout
         android:layout_width="fill_parent"

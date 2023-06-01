@@ -1,7 +1,10 @@
 package com.example.chathub;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,10 +16,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChatListActivity extends AppCompatActivity {
     private static final String LOG_TAG = ChatListActivity.class.getSimpleName();
 
     private SharedPreferences mPreferences;
+
+    DatabaseReference databaseReference;
+    ArrayList<User> contacts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,5 +104,46 @@ public class ChatListActivity extends AppCompatActivity {
             AlertDialog diag = builder.create();
             diag.show();
         }
+
+        List<String> usernames = new ArrayList<String>();
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
+        databaseReference = database.getReference("Users");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d(LOG_TAG,"sono qua");
+
+                for(DataSnapshot ds : snapshot.getChildren()) {
+                    String usernameFromDB = ds.child("username").getValue(String.class);
+                    usernames.add(usernameFromDB);
+
+                    Log.d("Usernames",usernames.toString());
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        // Lookup the recyclerview in activity layout
+        RecyclerView rvContacts = (RecyclerView) findViewById(R.id.rvContacts);
+
+
+        // Initialize contacts
+        contacts = User.createContactsList(20);
+
+        // Create adapter passing in the sample user data
+        ContactsAdapter adapter = new ContactsAdapter(contacts);
+        // Attach the adapter to the recyclerview to populate items
+        rvContacts.setAdapter(adapter);
+        // Set layout manager to position the items
+        rvContacts.setLayoutManager(new LinearLayoutManager(this));
+        // That's all!
+
+
     }
 }
