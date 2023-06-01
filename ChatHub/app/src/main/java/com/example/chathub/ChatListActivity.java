@@ -34,6 +34,11 @@ public class ChatListActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     ArrayList<User> contacts;
 
+    RecyclerView recyclerView;
+    LinearLayoutManager layoutManager;
+    List<ModelClass> userList;
+    Adapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,6 +134,7 @@ public class ChatListActivity extends AppCompatActivity {
             }
         });
 
+        /*
         // Lookup the recyclerview in activity layout
         RecyclerView rvContacts = (RecyclerView) findViewById(R.id.rvContacts);
 
@@ -143,7 +149,36 @@ public class ChatListActivity extends AppCompatActivity {
         // Set layout manager to position the items
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
         // That's all!
+        */
 
+        initData();
+        initRecyclerView();
+
+
+
+
+    }
+
+    private void initData() {
+        userList = new ArrayList<>();
+        userList.add(new ModelClass("Giulia", "Online"));
+        userList.add(new ModelClass("Riccardo", "Offline"));
+        userList.add(new ModelClass("Belin", "Online"));
+        userList.add(new ModelClass("Leotta", "Offline"));
+        userList.add(new ModelClass("Fra", "Online"));
+        userList.add(new ModelClass("Ric", "Offline"));
+
+
+    }
+
+    private void initRecyclerView() {
+        recyclerView = findViewById(R.id.recyclerView);
+        layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new Adapter(userList);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
     }
 }

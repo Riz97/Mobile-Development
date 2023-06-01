@@ -23,7 +23,8 @@
             android:parentActivityName=".ChatListActivity"/>
         <activity
             android:name=".ChatListActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Chats"/>
         <activity
             android:name=".SigninActivity"
             android:exported="false"

@@ -71,9 +71,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             // to access the context from any ViewHolder instance.
             super(itemView);
 
-            nameTextView = (TextView) itemView.findViewById(R.id.contact_name);
-            messageButton = (Button) itemView.findViewById(R.id.message_button);
-            statusTextView = (TextView) itemView.findViewById(R.id.user_status);
+            //nameTextView = (TextView) itemView.findViewById(R.id.contact_name);
+            //messageButton = (Button) itemView.findViewById(R.id.message_button);
+            //statusTextView = (TextView) itemView.findViewById(R.id.user_status);
         }
     }
 }
