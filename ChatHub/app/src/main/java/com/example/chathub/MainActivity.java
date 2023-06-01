@@ -66,10 +66,9 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(LOG_TAG,"sono qua");
                             String passwordFromDB = dataSnapshot.child(userEnteredUsername).child("password").getValue(String.class);
                             if (passwordFromDB.equals(userEnteredPassword)) {
-                                Intent signinIntent = new Intent(MainActivity.this, ChatActivity.class);
-                                startActivity(signinIntent);  }
-
-                            else {
+                                Intent signinIntent = new Intent(MainActivity.this, ChatListActivity.class);
+                                startActivity(signinIntent);
+                            } else {
                                 editPassword.setError("Wrong Password");
                                 editPassword.requestFocus();
                             }
@@ -77,19 +76,14 @@ public class MainActivity extends AppCompatActivity {
                             editUsername.setError("No such User exist");
                             editUsername.requestFocus();
                        }
-
-
-
-
-            }
+                    }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });
+            }
+        });
     }
-
-
-});
-    }}
+}

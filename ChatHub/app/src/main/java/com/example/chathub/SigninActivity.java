@@ -68,45 +68,29 @@ public class SigninActivity extends AppCompatActivity {
         });
 
 
-                signIn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+        signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String password = editPassword.getText().toString();
+                String username = editUsername.getText().toString();
+                String confirmPsw = editConfirm.getText().toString();
+
+                if(usernames.contains(username)) {
+                    editUsername.setError("User already Exists");
+                    editUsername.requestFocus();
+                }
 
 
-                        String password = editPassword.getText().toString();
-                        String username = editUsername.getText().toString();
-                        String confirmPsw = editConfirm.getText().toString();
-
-                        if(usernames.contains(username))
-                        {
-                            editUsername.setError("User already Exists");
-                            editUsername.requestFocus();
-
-                        }
-
-
-
-                       else if (password.equals(confirmPsw) && !usernames.contains(username)) {
-                            newUser = new User(username, password);
-                            databaseReference.child(username).child("password").setValue(password);
-                            databaseReference.child(username).child("username").setValue(username);
-                            Toast.makeText(SigninActivity.this, "Profile Created Successfully", Toast.LENGTH_LONG).show();
-                        } else {
-
-
-                            Toast.makeText(SigninActivity.this, " Error : Inserted Password do not correspond", Toast.LENGTH_LONG).show();
-
-
-                        }
-
-
-
-
-                    }
-                });
+               else if (password.equals(confirmPsw) && !usernames.contains(username)) {
+                    newUser = new User(username, password);
+                    databaseReference.child(username).child("password").setValue(password);
+                    databaseReference.child(username).child("username").setValue(username);
+                    Toast.makeText(SigninActivity.this, "Profile Created Successfully", Toast.LENGTH_LONG).show();
+               } else {
+                    Toast.makeText(SigninActivity.this, " Error : Inserted Password do not correspond", Toast.LENGTH_LONG).show();
+               }
+            }
+        });
     }
-
-
-
-
 }
