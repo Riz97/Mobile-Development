@@ -35,7 +35,8 @@ public class ChatListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // New Chat
-                Log.d("New Chat", "ok");
+                Intent logoutIntent = new Intent(ChatListActivity.this, NewChatActivity.class);
+                startActivity(logoutIntent);
             }
         });
 
@@ -57,7 +58,6 @@ public class ChatListActivity extends AppCompatActivity {
 
         int logged = mPreferences.getInt("logged", 0);
         if (logged == 0) {
-
 
             AlertDialog.Builder builder = new AlertDialog.Builder(ChatListActivity.this);
             builder.setTitle("Logout Preference");

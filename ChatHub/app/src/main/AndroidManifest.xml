@@ -19,7 +19,8 @@
             android:exported="false" />
         <activity
             android:name=".NewChatActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ChatListActivity"/>
         <activity
             android:name=".ChatListActivity"
             android:exported="false" />
