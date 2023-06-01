@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     DatabaseReference databaseReference;
+    private SharedPreferences mPreferences;
+
 
     User newUser;
     @Override
@@ -31,9 +34,28 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference("Users");
 
+        String sharedPrefFile = "com.example.chathub";
+        mPreferences = getSharedPreferences(sharedPrefFile,MODE_PRIVATE);
+
+
+
+        int logged = mPreferences.getInt("logged",0);
+
+        Log.d("ciaaoooooaaaaaaaaaaaa",Integer.toString(logged));
+
+        if(logged == 1)
+        {
+            Intent signinIntent = new Intent(MainActivity.this, ChatListActivity.class);
+            startActivity(signinIntent);
+        }
+
+
+
 
         EditText editUsername = (EditText) (findViewById(R.id.editTextUsername));
         EditText editPassword = (EditText) (findViewById(R.id.editTextPassword));
+
+
 
 
 
@@ -63,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            Log.d(LOG_TAG,"sono qua");
                             String passwordFromDB = dataSnapshot.child(userEnteredUsername).child("password").getValue(String.class);
                             if (passwordFromDB.equals(userEnteredPassword)) {
                                 Intent signinIntent = new Intent(MainActivity.this, ChatListActivity.class);

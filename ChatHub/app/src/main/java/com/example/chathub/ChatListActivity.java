@@ -3,8 +3,10 @@ package com.example.chathub;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +14,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class ChatListActivity extends AppCompatActivity {
+    private static final String LOG_TAG = ChatListActivity.class.getSimpleName();
+
+    private SharedPreferences mPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,8 +24,11 @@ public class ChatListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat_list);
 
 
+        String sharedPrefFile = "com.example.chathub";
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+
         // Click Listener for the "New Chat" button
-        Button newChatButton = (Button)findViewById(R.id.buttonNewChat);
+        Button newChatButton = (Button) findViewById(R.id.buttonNewChat);
         newChatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -30,7 +38,7 @@ public class ChatListActivity extends AppCompatActivity {
         });
 
         // Click Listener for the "Logout" button
-        Button logoutButton = (Button)findViewById(R.id.buttonLogout);
+        Button logoutButton = (Button) findViewById(R.id.buttonLogout);
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -38,35 +46,45 @@ public class ChatListActivity extends AppCompatActivity {
                 Log.d("Logout", "ok");
                 Intent logoutIntent = new Intent(ChatListActivity.this, MainActivity.class);
                 startActivity(logoutIntent);
+                SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+                preferencesEditor.clear();
+                preferencesEditor.apply();
             }
         });
 
 
-        // Dialog box: https://code2care.org/2015/android-alertdialog-with-3-buttons-example
-        AlertDialog.Builder builder = new AlertDialog.Builder(ChatListActivity.this);
-        builder.setTitle("AlertDialog Example");
-        builder.setMessage("This is an Example of Android AlertDialog with 3 Buttons!!");
-
-        //Button One : Yes
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(ChatListActivity.this, "Yes button Clicked!", Toast.LENGTH_LONG).show();
-            }
-        });
+        int logged = mPreferences.getInt("logged", 0);
+        if (logged == 0) {
 
 
-        //Button Two : No
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(ChatListActivity.this, "No button Clicked!", Toast.LENGTH_LONG).show();
-                dialog.cancel();
-            }
-        });
+            AlertDialog.Builder builder = new AlertDialog.Builder(ChatListActivity.this);
+            builder.setTitle("Logout Preference");
+            builder.setMessage("Would like to stay logged  with the same account when you reopen the app?");
 
-        AlertDialog diag = builder.create();
-        diag.show();
+            //Button One : Yes
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+                    preferencesEditor.putInt("logged", 1);
+                    preferencesEditor.apply();
+
+
+                }
+            });
+
+
+            //Button Two : No
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            AlertDialog diag = builder.create();
+            diag.show();
+        }
     }
-
 }
