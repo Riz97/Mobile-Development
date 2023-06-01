@@ -36,6 +36,8 @@ public class ChatListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Logout
                 Log.d("Logout", "ok");
+                Intent logoutIntent = new Intent(ChatListActivity.this, MainActivity.class);
+                startActivity(logoutIntent);
             }
         });
 
@@ -44,7 +46,7 @@ public class ChatListActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(ChatListActivity.this);
         builder.setTitle("AlertDialog Example");
         builder.setMessage("This is an Example of Android AlertDialog with 3 Buttons!!");
-        
+
         //Button One : Yes
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
