@@ -75,6 +75,8 @@ public class SigninActivity extends AppCompatActivity {
                 String password = editPassword.getText().toString();
                 String username = editUsername.getText().toString();
                 String confirmPsw = editConfirm.getText().toString();
+                boolean status = false;
+
 
                 if(usernames.contains(username)) {
                     editUsername.setError("User already Exists");
@@ -83,9 +85,10 @@ public class SigninActivity extends AppCompatActivity {
 
 
                else if (password.equals(confirmPsw) && !usernames.contains(username)) {
-                    newUser = new User(username, password);
+                    newUser = new User(username, password,status);
                     databaseReference.child(username).child("password").setValue(password);
                     databaseReference.child(username).child("username").setValue(username);
+                    databaseReference.child(username).child("online").setValue(status);
                     Intent signinIntent = new Intent(SigninActivity.this, MainActivity.class);
                     startActivity(signinIntent);
                     Toast.makeText(SigninActivity.this, "Profile Created Successfully", Toast.LENGTH_LONG).show();

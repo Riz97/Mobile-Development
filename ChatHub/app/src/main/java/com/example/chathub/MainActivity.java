@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         int logged = mPreferences.getInt("logged",0);
 
-        Log.d("ciaaoooooaaaaaaaaaaaa",Integer.toString(logged));
+
 
         if(logged == 1)
         {
