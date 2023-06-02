@@ -10,11 +10,11 @@
         android:id="@+id/searchView"
         android:layout_width="331dp"
         android:layout_height="48dp"
-        android:layout_marginTop="276dp"
+        android:layout_marginTop="88dp"
+        android:iconifiedByDefault="false"
         android:queryHint="Search a Username"
         android:transitionGroup="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.477"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -22,15 +22,23 @@
 
     <ListView
         android:id="@+id/listview"
-        android:layout_width="336dp"
-        android:layout_height="360dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="351dp"
+        android:layout_height="472dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"
-        app:layout_constraintVertical_bias="0.243">
+        app:layout_constraintTop_toBottomOf="@+id/searchView">
 
     </ListView>
+
+    <Button
+        android:id="@+id/buttonNew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create New Chat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listview" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

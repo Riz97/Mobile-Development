@@ -37,12 +37,16 @@ public class ChatListActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     List<ModelClass> userList;
+
     Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
+        databaseReference = database.getReference("Users");
 
 
         String sharedPrefFile = "com.example.chathub";
@@ -111,7 +115,6 @@ public class ChatListActivity extends AppCompatActivity {
         }
 
         List<String> usernames = new ArrayList<String>();
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference("Users");
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -123,7 +126,7 @@ public class ChatListActivity extends AppCompatActivity {
                     String usernameFromDB = ds.child("username").getValue(String.class);
                     usernames.add(usernameFromDB);
 
-                    Log.d("Usernames",usernames.toString());
+
                 }
 
             }
@@ -160,16 +163,42 @@ public class ChatListActivity extends AppCompatActivity {
     }
 
     private void initData() {
+//  userList = new ArrayList<>();
+//      userList.add(new ModelClass("Giulia", "Online"));
+//       userList.add(new ModelClass("Riccardo", "Offline"));
+//       userList.add(new ModelClass("Belin", "Online"));
+//        Log.d("Usernames",userList.toString());
+//
+//        userList.add(new ModelClass("Leotta", "Offline"));
+//       userList.add(new ModelClass("Fra", "Online"));
+//       userList.add(new ModelClass("Ric", "Offline"));
+
         userList = new ArrayList<>();
-        userList.add(new ModelClass("Giulia", "Online"));
-        userList.add(new ModelClass("Riccardo", "Offline"));
-        userList.add(new ModelClass("Belin", "Online"));
-        userList.add(new ModelClass("Leotta", "Offline"));
-        userList.add(new ModelClass("Fra", "Online"));
-        userList.add(new ModelClass("Ric", "Offline"));
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
+        databaseReference = database.getReference("Users");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot ds : snapshot.getChildren()) {
+                    String usernameFromDB = ds.child("username").getValue(String.class);
+                    Log.d("Usernames",usernameFromDB.toString());
+                    userList.add(new ModelClass(usernameFromDB, "Offline"));
+
+                }
+
+                adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
-    }
+   }
 
     private void initRecyclerView() {
         recyclerView = findViewById(R.id.recyclerView);
