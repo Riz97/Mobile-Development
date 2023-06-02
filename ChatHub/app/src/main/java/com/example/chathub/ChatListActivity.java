@@ -45,6 +45,19 @@ public class ChatListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
 
+
+
+        Intent intent = getIntent();
+        String foo = intent.getStringExtra("dest");
+        int foo1 = intent.getIntExtra("new",0);
+
+        if(foo1 == 1)
+        {
+            Log.d("test",foo);
+        }
+
+
+
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference("Users");
 

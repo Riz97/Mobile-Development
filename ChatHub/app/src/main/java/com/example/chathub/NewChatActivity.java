@@ -3,6 +3,7 @@ package com.example.chathub;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -27,11 +28,18 @@ import java.util.List;
 
 public class NewChatActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_chat);
         String text;
+
+        Button newChatButton = (Button)findViewById(R.id.buttonNew);
 
         SearchView searchView = findViewById(R.id.searchView);
         ListView listView = findViewById(R.id.listview);
@@ -95,11 +103,20 @@ public class NewChatActivity extends AppCompatActivity {
        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             String s = null;
              Object item  = adapter.getItem(i);
-
              s = item.toString();
-
              searchView.setQuery(s,true);
 
+       }
+   });
+
+   newChatButton.setOnClickListener(new View.OnClickListener() {
+       @Override
+       public void onClick(View view) {
+           Intent i = new Intent(NewChatActivity.this, ChatListActivity.class);
+           String s = searchView.getQuery().toString();
+           i.putExtra("dest",s);
+           i.putExtra("new",1);
+           startActivity(i);
        }
    });
 
