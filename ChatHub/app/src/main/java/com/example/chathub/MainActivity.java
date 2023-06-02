@@ -87,7 +87,10 @@ public class MainActivity extends AppCompatActivity {
                         if (dataSnapshot.exists()) {
                             String passwordFromDB = dataSnapshot.child(userEnteredUsername).child("password").getValue(String.class);
                             if (passwordFromDB.equals(userEnteredPassword)) {
+                                dataSnapshot.getRef().child(userEnteredUsername).child("online").setValue(true);
+
                                 Intent signinIntent = new Intent(MainActivity.this, ChatListActivity.class);
+                                signinIntent.putExtra("userstatus",userEnteredUsername);
                                 startActivity(signinIntent);
                             } else {
                                 editPassword.setError("Wrong Password");

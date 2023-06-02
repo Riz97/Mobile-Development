@@ -49,6 +49,7 @@ public class ChatListActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String foo = intent.getStringExtra("dest");
+        String userlogged = intent.getStringExtra("userstatus");
         int foo1 = intent.getIntExtra("new",0);
 
         if(foo1 == 1)
@@ -84,6 +85,20 @@ public class ChatListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Logout
+
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                     snapshot.getRef().child(userlogged).child("online").setValue(false);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
                 Log.d("Logout", "ok");
                 Intent logoutIntent = new Intent(ChatListActivity.this, MainActivity.class);
                 startActivity(logoutIntent);
@@ -176,15 +191,6 @@ public class ChatListActivity extends AppCompatActivity {
     }
 
     private void initData() {
-//  userList = new ArrayList<>();
-//      userList.add(new ModelClass("Giulia", "Online"));
-//       userList.add(new ModelClass("Riccardo", "Offline"));
-//       userList.add(new ModelClass("Belin", "Online"));
-//        Log.d("Usernames",userList.toString());
-//
-//        userList.add(new ModelClass("Leotta", "Offline"));
-//       userList.add(new ModelClass("Fra", "Online"));
-//       userList.add(new ModelClass("Ric", "Offline"));
 
         userList = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
@@ -195,8 +201,23 @@ public class ChatListActivity extends AppCompatActivity {
 
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     String usernameFromDB = ds.child("username").getValue(String.class);
+                    //snapshot.getRef().child(userlogged).child("online").setValue(false);
+
+                    boolean usernameStatusFromDB = ds.child("online").getValue(Boolean.class);
+
+                    if(usernameStatusFromDB == true)
+                    {
+                        userList.add(new ModelClass(usernameFromDB,"online" ));
+                    }
+
+                    else
+                    {
+                        userList.add(new ModelClass(usernameFromDB,"offline" ));
+                    }
+
+
                     Log.d("Usernames",usernameFromDB.toString());
-                    userList.add(new ModelClass(usernameFromDB, "Offline"));
+
 
                 }
 
