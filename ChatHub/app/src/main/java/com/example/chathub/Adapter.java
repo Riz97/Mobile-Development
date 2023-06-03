@@ -1,6 +1,9 @@
 package com.example.chathub;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +44,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         return userList.size();
     }
 
+
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView textViewUsername;
         private TextView textViewStatus;
@@ -55,21 +60,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
 
         public void setData(String name, String status) {
             textViewUsername.setText(name);
-
-
             textViewStatus.setText(status);
 
-            if(status == "online")
-            {
+            if(status == "online") {
                 textViewStatus.setTextColor(Color.parseColor("#2cba00"));
-
-            }
-
-            else
-            {
+            } else {
                 textViewStatus.setTextColor(Color.parseColor("#ff0000"));
-
             }
         }
+
     }
 }

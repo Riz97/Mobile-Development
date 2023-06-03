@@ -36,7 +36,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="Login">
+            android:label="ChatHub">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
