@@ -38,6 +38,11 @@ public class ChatListActivity extends AppCompatActivity {
     LinearLayoutManager layoutManager;
     List<ModelClass> userList;
 
+
+
+
+
+
     Adapter adapter;
 
     @Override
@@ -47,9 +52,14 @@ public class ChatListActivity extends AppCompatActivity {
 
 
 
-        Intent intent = getIntent();
+
+
+     Intent intent = getIntent();
+     String userlogged = intent.getStringExtra("userstatus");
+
+
+
         String foo = intent.getStringExtra("dest");
-        String userlogged = intent.getStringExtra("userstatus");
         int foo1 = intent.getIntExtra("new",0);
 
         if(foo1 == 1)
@@ -58,12 +68,17 @@ public class ChatListActivity extends AppCompatActivity {
         }
 
 
+
+
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference("Users");
 
 
         String sharedPrefFile = "com.example.chathub";
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+
+
+
 
 
 
@@ -215,6 +230,7 @@ public class ChatListActivity extends AppCompatActivity {
                     Log.d("Usernames",usernameFromDB.toString());
 
 
+
                 }
 
                 adapter.notifyDataSetChanged();
@@ -240,4 +256,67 @@ public class ChatListActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
 
     }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        Intent intent = getIntent();
+        String userlogged = intent.getStringExtra("userstatus");
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
+        databaseReference = database.getReference("Users");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                snapshot.getRef().child(userlogged).child("online").setValue(false);
+                Log.d("onstop",userlogged.toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+    }
+
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        Intent intent = getIntent();
+        String userlogged = intent.getStringExtra("userstatus");
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
+        databaseReference = database.getReference("Users");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                snapshot.getRef().child(userlogged).child("online").setValue(false);
+                Log.d("onstop",userlogged.toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Log.d(LOG_TAG,"onResume");
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Log.d(LOG_TAG,"onPause");
+    }
+
+
 }

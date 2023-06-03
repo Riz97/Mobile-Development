@@ -35,8 +35,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     public void onBindViewHolder(@NonNull Adapter.ViewHolder holder, int position) {
         String name = userList.get(position).getTextViewUsername();
         String status = userList.get(position).getTextViewStatus();
-
         holder.setData(name, status);
+
+
     }
 
     @Override
@@ -56,6 +57,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
             textViewUsername = itemView.findViewById(R.id.textViewUsername);
             textViewStatus = itemView.findViewById(R.id.textViewStatus);
 
+
+
         }
 
         public void setData(String name, String status) {
@@ -67,7 +70,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
             } else {
                 textViewStatus.setTextColor(Color.parseColor("#ff0000"));
             }
+
         }
+
+
 
     }
 }
