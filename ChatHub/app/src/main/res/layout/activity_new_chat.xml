@@ -9,9 +9,9 @@
 
     <SearchView
         android:id="@+id/searchView"
-        android:layout_width="331dp"
+        android:layout_width="350dp"
         android:layout_height="48dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="60dp"
         android:iconifiedByDefault="false"
         android:queryHint="Search a Username"
         android:transitionGroup="false"
@@ -23,9 +23,9 @@
 
     <ListView
         android:id="@+id/listview"
-        android:layout_width="351dp"
-        android:layout_height="472dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="350dp"
+        android:layout_height="460dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchView">
@@ -35,7 +35,8 @@
     <Button
         android:id="@+id/buttonNew"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginBottom="50dp"
         android:text="Create New Chat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
