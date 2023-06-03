@@ -284,8 +284,8 @@ public class ChatListActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onDestroy(){
-        super.onDestroy();
+    protected void onPause(){
+        super.onPause();
         Intent intent = getIntent();
         String userlogged = intent.getStringExtra("userstatus");
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
@@ -309,14 +309,27 @@ public class ChatListActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        Log.d(LOG_TAG,"onResume");
+        Intent intent = getIntent();
+        String userlogged = intent.getStringExtra("userstatus");
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
+        databaseReference = database.getReference("Users");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                snapshot.getRef().child(userlogged).child("online").setValue(true);
+                Log.d("onstop",userlogged.toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
-    @Override
-    protected void onPause(){
-        super.onPause();
-        Log.d(LOG_TAG,"onPause");
-    }
+
 
 
 }
