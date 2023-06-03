@@ -1,5 +1,6 @@
 package com.example.chathub;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -59,13 +61,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
 
             if(status == "online")
             {
-                textViewStatus.setTextColor(Color.parseColor("green"));
+                textViewStatus.setTextColor(Color.parseColor("#2cba00"));
 
             }
 
             else
             {
-                textViewStatus.setTextColor(Color.parseColor("red"));
+                textViewStatus.setTextColor(Color.parseColor("#ff0000"));
 
             }
         }

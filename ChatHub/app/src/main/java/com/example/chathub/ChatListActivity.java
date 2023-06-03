@@ -58,7 +58,6 @@ public class ChatListActivity extends AppCompatActivity {
         }
 
 
-
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference("Users");
 
@@ -184,9 +183,6 @@ public class ChatListActivity extends AppCompatActivity {
 
         initData();
         initRecyclerView();
-
-
-
 
     }
 

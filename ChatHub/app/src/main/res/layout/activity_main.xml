@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#dcdcdc"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -26,7 +27,7 @@
             android:id="@+id/imageViewLogo"
             android:layout_width="250dp"
             android:layout_height="250dp"
-            app:srcCompat="@drawable/chathub_logo"
+            app:srcCompat="@drawable/chathub_logo_blue"
             tools:ignore="ContentDescription,ImageContrastCheck" />
 
         <Space
