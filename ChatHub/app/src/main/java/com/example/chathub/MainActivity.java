@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         int logged = mPreferences.getInt("logged",0);
 
 

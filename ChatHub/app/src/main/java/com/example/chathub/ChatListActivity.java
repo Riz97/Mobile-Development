@@ -12,6 +12,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -43,6 +45,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
 
+ getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
 
@@ -175,6 +178,27 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
         initData();
         initRecyclerView();
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_chatlist,menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+
+
+        case R.id.refresh:
+            initData();
+            initRecyclerView();
+
+        }
+        return super.onOptionsItemSelected(item);
 
     }
 
@@ -314,4 +338,8 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         chatIntent.putExtra("USERNAME", user);
         startActivity(chatIntent);
     }
+
+
+
+
 }
