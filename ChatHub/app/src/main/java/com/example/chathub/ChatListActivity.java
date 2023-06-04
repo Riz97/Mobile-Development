@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -26,23 +27,15 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatListActivity extends AppCompatActivity {
+public class ChatListActivity extends AppCompatActivity implements RecyclerViewInterface {
     private static final String LOG_TAG = ChatListActivity.class.getSimpleName();
 
     private SharedPreferences mPreferences;
 
     DatabaseReference databaseReference;
-    ArrayList<User> contacts;
-
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     List<ModelClass> userList;
-
-
-
-
-
-
     Adapter adapter;
 
     @Override
@@ -179,22 +172,6 @@ public class ChatListActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        // Lookup the recyclerview in activity layout
-        RecyclerView rvContacts = (RecyclerView) findViewById(R.id.rvContacts);
-
-
-        // Initialize contacts
-        contacts = User.createContactsList(20);
-
-        // Create adapter passing in the sample user data
-        ContactsAdapter adapter = new ContactsAdapter(contacts);
-        // Attach the adapter to the recyclerview to populate items
-        rvContacts.setAdapter(adapter);
-        // Set layout manager to position the items
-        rvContacts.setLayoutManager(new LinearLayoutManager(this));
-        // That's all!
-        */
 
         initData();
         initRecyclerView();
@@ -251,7 +228,7 @@ public class ChatListActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new Adapter(userList);
+        adapter = new Adapter(userList, this);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
@@ -330,6 +307,11 @@ public class ChatListActivity extends AppCompatActivity {
     }
 
 
-
-
+    @Override
+    public void onItemClick(int position) {
+        Intent chatIntent = new Intent(ChatListActivity.this, ChatActivity.class);
+        String user = ((TextView) recyclerView.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.textViewUsername)).getText().toString();
+        chatIntent.putExtra("USERNAME", user);
+        startActivity(chatIntent);
+    }
 }

@@ -19,9 +19,11 @@ import java.util.List;
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
 
     private List<ModelClass> userList;
+    private final RecyclerViewInterface recyclerViewInterface;
 
-    public Adapter (List<ModelClass>userList) {
+    public Adapter (List<ModelClass>userList, RecyclerViewInterface recyclerViewInterface) {
         this.userList = userList;
+        this.recyclerViewInterface = recyclerViewInterface;
     }
 
     @NonNull
@@ -57,8 +59,18 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
             textViewUsername = itemView.findViewById(R.id.textViewUsername);
             textViewStatus = itemView.findViewById(R.id.textViewStatus);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(recyclerViewInterface != null) {
+                        int pos = getAdapterPosition();
 
-
+                        if(pos != RecyclerView.NO_POSITION) {
+                            recyclerViewInterface.onItemClick(pos);
+                        }
+                    }
+                }
+            });
         }
 
         public void setData(String name, String status) {
