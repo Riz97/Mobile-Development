@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                databaseMessagesReference.child("jjj").setValue(null);
+
                 final String userEnteredUsername = editUsername.getText().toString().trim();
                 final String userEnteredPassword = editPassword.getText().toString().trim();
                 DatabaseReference reference = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Users");
@@ -89,10 +89,11 @@ public class MainActivity extends AppCompatActivity {
                             String passwordFromDB = dataSnapshot.child(userEnteredUsername).child("password").getValue(String.class);
                             if (passwordFromDB.equals(userEnteredPassword)) {
                                 dataSnapshot.getRef().child(userEnteredUsername).child("online").setValue(true);
-
+                                databaseMessagesReference.child(userEnteredUsername).child("othername").setValue("");
 
                                 Intent signinIntent = new Intent(MainActivity.this, ChatListActivity.class);
-                                signinIntent.putExtra("userstatus",userEnteredUsername);
+                                signinIntent.putExtra("username",userEnteredUsername);
+
                                 startActivity(signinIntent);
                             } else {
                                 editPassword.setError("Wrong Password");

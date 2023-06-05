@@ -51,7 +51,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
 
      Intent intent = getIntent();
-     String userlogged = intent.getStringExtra("userstatus");
+     String userlogged = intent.getStringExtra("username");
 
 
 
@@ -245,7 +245,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
     protected void onStop(){
         super.onStop();
         Intent intent = getIntent();
-        String userlogged = intent.getStringExtra("userstatus");
+        String userlogged = intent.getStringExtra("username");
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference("Users");
 
@@ -271,7 +271,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
     protected void onPause(){
         super.onPause();
         Intent intent = getIntent();
-        String userlogged = intent.getStringExtra("userstatus");
+        String userlogged = intent.getStringExtra("username");
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference("Users");
 
@@ -294,7 +294,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
     protected void onResume(){
         super.onResume();
         Intent intent = getIntent();
-        String userlogged = intent.getStringExtra("userstatus");
+        String userlogged = intent.getStringExtra("username");
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference("Users");
 
@@ -317,8 +317,15 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
     @Override
     public void onItemClick(int position) {
         Intent chatIntent = new Intent(ChatListActivity.this, ChatActivity.class);
-        String user = ((TextView) recyclerView.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.textViewUsername)).getText().toString();
-        chatIntent.putExtra("USERNAME", user);
+        String other = ((TextView) recyclerView.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.textViewUsername)).getText().toString();
+        Intent intent = getIntent();
+
+        String userlogged = intent.getStringExtra("username");
+
+        chatIntent.putExtra("othername", other);
+        chatIntent.putExtra("username",userlogged);
+
+
         startActivity(chatIntent);
     }
 

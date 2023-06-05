@@ -56,7 +56,12 @@
             android:textSize="20dp"
             android:textStyle="bold"></EditText>
 
-
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/sendImage"
+            android:layout_weight="1"></ImageView>
     </LinearLayout>
 
 </RelativeLayout>

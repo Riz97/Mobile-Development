@@ -18,6 +18,7 @@ import android.provider.ContactsContract;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,6 +52,7 @@ public class ChatActivity extends AppCompatActivity {
     List<MessageModel> list;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +62,7 @@ public class ChatActivity extends AppCompatActivity {
 
         userName = getIntent().getExtras().getString("username");
         otherName = getIntent().getExtras().getString("othername");
-
+        sendImage = (ImageView) findViewById(R.id.sendImage);
         chatUserName = (TextView)findViewById(R.id.chatUserName);
         chatEditText = (EditText)findViewById(R.id.chatEditText);
         chatUserName.setText(otherName); //mesajlaşılan user'ın name'i
@@ -70,7 +72,14 @@ public class ChatActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         reference = firebaseDatabase.getReference();
 
-
+        sendImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String message = chatEditText.getText().toString();
+                chatEditText.setText("");
+                sendMessage(message);
+            }
+        });
 
 
         loadMessage();
