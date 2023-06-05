@@ -210,6 +210,8 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Intent intent = getIntent();
                 String userlogged = intent.getStringExtra("username");
+
+
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     String usernameFromDB = ds.child("username").getValue(String.class);
                     boolean usernameStatusFromDB = ds.child("online").getValue(Boolean.class);
@@ -251,76 +253,77 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
     }
 
-    @Override
-    protected void onStop(){
-        super.onStop();
-        Intent intent = getIntent();
-        String userlogged = intent.getStringExtra("username");
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
-        databaseReference = database.getReference("Users");
+//    @Override
+//    protected void onStop(){
+//        super.onStop();
+//        Intent intent = getIntent();
+//        String userlogged = intent.getStringExtra("username");
+//        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
+//        databaseReference = database.getReference("Users");
+//
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                snapshot.getRef().child(userlogged).child("online").setValue(false);
+//                Log.d("onstop",userlogged.toString());
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//
+//
+//
+//    }
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                snapshot.getRef().child(userlogged).child("online").setValue(false);
-                Log.d("onstop",userlogged.toString());
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+//    @Override
+//    protected void onPause(){
+//        super.onPause();
+//        Intent intent = getIntent();
+//        String userlogged = intent.getStringExtra("username");
+//        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
+//        databaseReference = database.getReference("Users");
+//
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                snapshot.getRef().child(userlogged).child("online").setValue(false);
+//                Log.d("onstop",userlogged.toString());
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//
+//    }
 
-            }
-        });
 
-
-
-    }
-
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-        Intent intent = getIntent();
-        String userlogged = intent.getStringExtra("username");
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
-        databaseReference = database.getReference("Users");
-
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                snapshot.getRef().child(userlogged).child("online").setValue(false);
-                Log.d("onstop",userlogged.toString());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        Intent intent = getIntent();
-        String userlogged = intent.getStringExtra("username");
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
-        databaseReference = database.getReference("Users");
-
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                snapshot.getRef().child(userlogged).child("online").setValue(true);
-                Log.d("onstop",userlogged.toString());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
+//    @Override
+//    protected void onResume(){
+//        super.onResume();
+//        Intent intent = getIntent();
+//        String userlogged = intent.getStringExtra("username");
+//        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
+//        databaseReference = database.getReference("Users");
+//
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                snapshot.getRef().child(userlogged).child("online").setValue(true);
+//                Log.d("onstop",userlogged.toString());
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
 
 
 

@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                             String passwordFromDB = dataSnapshot.child(userEnteredUsername).child("password").getValue(String.class);
                             if (passwordFromDB.equals(userEnteredPassword)) {
                                 dataSnapshot.getRef().child(userEnteredUsername).child("online").setValue(true);
-                                databaseMessagesReference.child(userEnteredUsername).child("othername").setValue("");
+
 
                                 Intent signinIntent = new Intent(MainActivity.this, ChatListActivity.class);
                                 signinIntent.putExtra("username",userEnteredUsername);

@@ -47,7 +47,7 @@ public class NewChatActivity extends AppCompatActivity {
 
         List<String> usernames = new ArrayList<String>();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
-        databaseReference = database.getReference("Users");
+        databaseReference = database.getReference("Messages");
 
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -116,7 +116,28 @@ public class NewChatActivity extends AppCompatActivity {
            String s = searchView.getQuery().toString();
            i.putExtra("dest",s);
            i.putExtra("new",1);
+
+           databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+               @Override
+               public void onDataChange(@NonNull DataSnapshot snapshot) {
+                   String s = searchView.getQuery().toString();
+                   databaseReference.child(s).child("DestinationUser").setValue(s);
+               }
+
+               @Override
+               public void onCancelled(@NonNull DatabaseError error) {
+
+               }
+           });
+
+
+
+
            startActivity(i);
+
+
+
+
        }
    });
 
