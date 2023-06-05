@@ -65,7 +65,7 @@ public class ChatActivity extends AppCompatActivity {
         sendImage = (ImageView) findViewById(R.id.sendImage);
         chatUserName = (TextView)findViewById(R.id.chatUserName);
         chatEditText = (EditText)findViewById(R.id.chatEditText);
-        chatUserName.setText(otherName); //mesajlaşılan user'ın name'i
+        chatUserName.setText(otherName);
 
         list = new ArrayList<>();
 
@@ -118,7 +118,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull  DataSnapshot snapshot, @Nullable  String previousChildName) {
                 MessageModel messageModel = snapshot.getValue(MessageModel.class);
-                list.add(messageModel); //gelen mesajları listele
+                list.add(messageModel);
                 messageAdapter.notifyDataSetChanged();
                 chatRecyclerView.scrollToPosition(list.size()-1);
             }

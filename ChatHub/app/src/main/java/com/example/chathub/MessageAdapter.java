@@ -46,13 +46,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull  ViewHolder holder, final int position) { //atama işlemleri, görüntüleme
+    public void onBindViewHolder(@NonNull  ViewHolder holder, final int position) {
         holder.textView.setText(list.get(position).getText().toString());
 
     }
 
     @Override
-    public int getItemCount() { //listedekilerin uzunluğu, sayısı
+    public int getItemCount() {
         return list.size();
     }
 
