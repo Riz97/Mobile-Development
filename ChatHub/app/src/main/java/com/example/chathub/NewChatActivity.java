@@ -121,7 +121,7 @@ public class NewChatActivity extends AppCompatActivity {
                @Override
                public void onDataChange(@NonNull DataSnapshot snapshot) {
                    String s = searchView.getQuery().toString();
-                   databaseReference.child(s).child("DestinationUser").setValue(s);
+                   //databaseReference.child(s).child("DestinationUser").setValue(s);
                }
 
                @Override
