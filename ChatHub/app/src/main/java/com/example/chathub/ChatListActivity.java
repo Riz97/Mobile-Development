@@ -192,14 +192,11 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
 
-
         case R.id.refresh:
             initData();
             initRecyclerView();
-
         }
         return super.onOptionsItemSelected(item);
-
     }
 
     private void initData() {
@@ -217,34 +214,20 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
                     boolean usernameStatusFromDB = ds.child("online").getValue(Boolean.class);
 
-                    if(usernameStatusFromDB == true)
-                    {
+                    if(usernameStatusFromDB == true) {
                         userList.add(new ModelClass(usernameFromDB,"online" ));
-                    }
-
-                    else
-                    {
+                    } else {
                         userList.add(new ModelClass(usernameFromDB,"offline" ));
                     }
-
-
                     Log.d("Usernames",usernameFromDB.toString());
-
-
-
                 }
-
                 adapter.notifyDataSetChanged();
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
-
-
    }
 
     private void initRecyclerView() {
@@ -327,8 +310,8 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
             }
         });
-
     }
+
 
 
     @Override

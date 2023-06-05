@@ -17,7 +17,9 @@
         <activity
             android:name=".ChatActivity"
             android:exported="false"
-            android:label="Chat"/>
+            android:label="Chat"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            />
         <activity
             android:name=".NewChatActivity"
             android:exported="false"
