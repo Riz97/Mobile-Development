@@ -44,7 +44,7 @@ public class SigninActivity extends AppCompatActivity {
         Button signIn = (Button) findViewById(R.id.buttonSignin);
         final String userEnteredUsername = editUsername.getText().toString().trim();
 
-        Query checkUser = databaseReference.orderByChild("username").equalTo(userEnteredUsername);
+
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -89,6 +89,7 @@ public class SigninActivity extends AppCompatActivity {
                     databaseReference.child(username).child("password").setValue(password);
                     databaseReference.child(username).child("username").setValue(username);
                     databaseReference.child(username).child("online").setValue(status);
+
                     Intent signinIntent = new Intent(SigninActivity.this, MainActivity.class);
                     startActivity(signinIntent);
                     Toast.makeText(SigninActivity.this, "Profile Created Successfully", Toast.LENGTH_LONG).show();

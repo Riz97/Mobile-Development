@@ -1,39 +1,62 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<?xml version="1.0" encoding="utf-8" ?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChatActivity"
-    android:background="#dcdcdc">
+    tools:context=".ChatActivity">
 
 
-    <TextView
-        android:id="@+id/textViewContact"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="38dp"
-        android:paddingLeft="30dp"
-        android:gravity="center_vertical"
-        android:text="Chat with: "
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:id="@+id/ust"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/message"
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/chatUserName"
+            android:layout_weight="6"></TextView>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
+        android:layout_above="@id/alt"
+        android:id="@+id/chatRecyclerView"
+        android:layout_below="@id/ust"
+        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.94" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:id="@+id/alt"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/chatEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_weight="6"
+            android:hint="Type Here"
+            android:minHeight="48dp"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold"></EditText>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
