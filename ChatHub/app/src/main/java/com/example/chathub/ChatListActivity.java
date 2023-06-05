@@ -210,8 +210,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     String usernameFromDB = ds.child("username").getValue(String.class);
-                    //snapshot.getRef().child(userlogged).child("online").setValue(false);
-
                     boolean usernameStatusFromDB = ds.child("online").getValue(Boolean.class);
 
                     if(usernameStatusFromDB == true) {

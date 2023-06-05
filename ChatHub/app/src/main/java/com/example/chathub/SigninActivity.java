@@ -27,6 +27,7 @@ public class SigninActivity extends AppCompatActivity {
     private static final String LOG_TAG = SigninActivity.class.getSimpleName();
 
     DatabaseReference databaseReference;
+    DatabaseReference databaseMessagesReference;
 
     User newUser;
     @Override
@@ -34,8 +35,10 @@ public class SigninActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
         List<String> usernames = new ArrayList<String>();
+        List<String> usernamesMessages = new ArrayList<String>();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference("Users");
+        databaseMessagesReference = database.getReference("Messages");
 
 
         EditText editUsername = (EditText) (findViewById(R.id.editTextUsername));
@@ -54,6 +57,7 @@ public class SigninActivity extends AppCompatActivity {
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     String usernameFromDB = ds.child(userEnteredUsername).child("username").getValue(String.class);
                     usernames.add(usernameFromDB);
+                    usernamesMessages.add(usernameFromDB);
 
                     Log.d(LOG_TAG,usernames.toString());
                 }
