@@ -94,6 +94,9 @@ public class SigninActivity extends AppCompatActivity {
                     databaseReference.child(username).child("username").setValue(username);
                     databaseReference.child(username).child("online").setValue(status);
 
+                    databaseMessagesReference.child(username).child("username").setValue(username);
+                    databaseMessagesReference.child(username).child("online").setValue(status);
+
                     Intent signinIntent = new Intent(SigninActivity.this, MainActivity.class);
                     startActivity(signinIntent);
                     Toast.makeText(SigninActivity.this, "Profile Created Successfully", Toast.LENGTH_LONG).show();

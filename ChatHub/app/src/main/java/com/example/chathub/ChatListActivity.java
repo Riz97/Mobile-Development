@@ -52,6 +52,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
      Intent intent = getIntent();
      String userlogged = intent.getStringExtra("username");
+     String newChatUser = intent.getStringExtra("dest");
 
 
 
@@ -203,21 +204,32 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
         userList = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
-        databaseReference = database.getReference("Users");
+        databaseReference = database.getReference("Messages");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                Intent intent = getIntent();
+                String userlogged = intent.getStringExtra("username");
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     String usernameFromDB = ds.child("username").getValue(String.class);
                     boolean usernameStatusFromDB = ds.child("online").getValue(Boolean.class);
 
-                    if(usernameStatusFromDB == true) {
-                        userList.add(new ModelClass(usernameFromDB,"online" ));
-                    } else {
-                        userList.add(new ModelClass(usernameFromDB,"offline" ));
+                    if(!usernameFromDB.equals(userlogged))
+                    {
+                        if(usernameStatusFromDB == true ) {
+                            userList.add(new ModelClass(usernameFromDB,"online" ));
+                        } else {
+                            userList.add(new ModelClass(usernameFromDB,"offline" ));
+                        }
+                        Log.d("Usernames",usernameFromDB.toString());
                     }
-                    Log.d("Usernames",usernameFromDB.toString());
+
+                    if(getIntent().getStringExtra("dest") != null)
+                    {
+                        userList.add(new ModelClass(getIntent().getStringExtra("dest"),"offline"));
+                    }
+
+
                 }
                 adapter.notifyDataSetChanged();
             }
