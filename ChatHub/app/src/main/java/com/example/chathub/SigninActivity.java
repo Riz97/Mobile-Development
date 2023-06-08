@@ -29,7 +29,7 @@ public class SigninActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     DatabaseReference databaseMessagesReference;
 
-    User newUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,7 +105,7 @@ public class SigninActivity extends AppCompatActivity {
 
 
                else if (password.equals(confirmPsw) && !usernames.contains(username)) {
-                    newUser = new User(username, password,status); //??
+
 
 
                     databaseMessagesReference.child(username).child("password").setValue(password);

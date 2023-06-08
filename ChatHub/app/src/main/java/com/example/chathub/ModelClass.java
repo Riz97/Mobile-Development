@@ -2,6 +2,8 @@ package com.example.chathub;
 
 import android.graphics.ColorSpace;
 
+
+
 public class ModelClass {
     private String textViewUsername;
     private String textViewStatus;

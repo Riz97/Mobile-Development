@@ -94,10 +94,15 @@ public class MainActivity extends AppCompatActivity {
                                 signinIntent.putExtra("username",userEnteredUsername);
 
                                 startActivity(signinIntent);
+
+                                //Checks if the password is correct or not
+
                             } else {
                                 editPassword.setError("Wrong Password");
                                 editPassword.requestFocus();
                             }
+
+                            //Checks if the user exists
                         } else {
                             editUsername.setError("No such User exist");
                             editUsername.requestFocus();
