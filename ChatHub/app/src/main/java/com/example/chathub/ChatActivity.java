@@ -90,6 +90,7 @@ public class ChatActivity extends AppCompatActivity {
         final Map messageMap = new HashMap();
         messageMap.put("text" , text);
         messageMap.put("from" , userName);
+        reference.child("Messages").child(userName).child("dest").setValue(otherName);
         reference.child("Messages").child(userName).child(otherName).child(key).setValue(messageMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

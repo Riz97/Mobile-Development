@@ -148,6 +148,8 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
             diag.show();
         }
 
+
+
         List<String> usernames = new ArrayList<String>();
         databaseReference = database.getReference("Users");
 
@@ -169,8 +171,12 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
             }
         });
 
-        initData();
-        initRecyclerView();
+
+            initData();
+            initRecyclerView();
+
+
+
     }
 
     @Override
@@ -201,13 +207,14 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Intent intent = getIntent();
                 String userlogged = intent.getStringExtra("username");
+                String dest = intent.getStringExtra("dest");
 
 
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     String usernameFromDB = ds.child("username").getValue(String.class);
                     boolean usernameStatusFromDB = ds.child("online").getValue(Boolean.class);
 
-                    if(!usernameFromDB.equals(userlogged))
+                    if(!usernameFromDB.equals(userlogged) && ds.child(usernameFromDB).child(dest).getValue(String.class)!=null)
                     {
                         if(usernameStatusFromDB == true) {
                             userList.add(new ModelClass(usernameFromDB,"online" ));

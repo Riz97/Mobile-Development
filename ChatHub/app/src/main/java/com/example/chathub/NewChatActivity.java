@@ -121,12 +121,14 @@ public class NewChatActivity extends AppCompatActivity {
            i.putExtra("username", userlogged);
            i.putExtra("dest",s);
            i.putExtra("new",1);
-
+           databaseReference.child(userlogged).child("dest").setValue(s);
 
            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                @Override
                public void onDataChange(@NonNull DataSnapshot snapshot) {
                    String s = searchView.getQuery().toString();
+
+
                }
 
                @Override
