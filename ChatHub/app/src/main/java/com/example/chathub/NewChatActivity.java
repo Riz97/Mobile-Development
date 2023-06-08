@@ -105,7 +105,6 @@ public class NewChatActivity extends AppCompatActivity {
              Object item  = adapter.getItem(i);
              s = item.toString();
              searchView.setQuery(s,true);
-
        }
    });
 
@@ -121,7 +120,6 @@ public class NewChatActivity extends AppCompatActivity {
                @Override
                public void onDataChange(@NonNull DataSnapshot snapshot) {
                    String s = searchView.getQuery().toString();
-
                }
 
                @Override

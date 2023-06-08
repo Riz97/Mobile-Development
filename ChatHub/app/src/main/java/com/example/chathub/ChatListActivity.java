@@ -39,6 +39,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
     LinearLayoutManager layoutManager;
     List<ModelClass> userList;
     Adapter adapter;
+    String userlogged = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +49,16 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
+
         Intent intent = getIntent();
-        String userlogged = intent.getStringExtra("username");
-        String newChatUser = intent.getStringExtra("dest");
+        if(intent.hasExtra("username"))
+        {
+            userlogged = intent.getStringExtra("username");
+            String newChatUser = intent.getStringExtra("dest");
+        }
+
+
+        Log.d("USER_LOGGED", "User logged:"+userlogged);
 
 
         String foo = intent.getStringExtra("dest");
@@ -204,7 +212,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
                     if(!usernameFromDB.equals(userlogged))
                     {
-                        if(usernameStatusFromDB == true ) {
+                        if(usernameStatusFromDB == true) {
                             userList.add(new ModelClass(usernameFromDB,"online" ));
                         } else {
                             userList.add(new ModelClass(usernameFromDB,"offline" ));
@@ -322,8 +330,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         String userlogged = intent.getStringExtra("username");
 
         chatIntent.putExtra("othername", other);
-        chatIntent.putExtra("username",userlogged);
-
+        chatIntent.putExtra("username", userlogged);
 
         startActivity(chatIntent);
     }
