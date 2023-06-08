@@ -140,4 +140,11 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onBackPressed() {
+        Intent intentChatList = new Intent();
+        intentChatList.putExtra("username", userName);
+        intentChatList.putExtra("dest", otherName);
+        setResult(1, intentChatList);
+    }
 }
