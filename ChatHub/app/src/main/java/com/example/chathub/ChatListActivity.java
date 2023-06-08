@@ -36,6 +36,8 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
     private SharedPreferences mPreferences;
 
     DatabaseReference databaseReference;
+
+    DatabaseReference dbr;
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     List<ModelClass> userList;
@@ -43,16 +45,26 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
     String userlogged = "";
     String newChatUser = "";
 
+    List myList = new ArrayList<String>();
+
+    int i = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
+
+
+
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Intent intent = getIntent();
         userlogged = intent.getStringExtra("username");
         newChatUser = intent.getStringExtra("dest");
+
+
+
         Log.d("USER_LOGGED", "User logged:" + userlogged);
 
 
@@ -72,6 +84,9 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         String sharedPrefFile = "com.example.chathub";
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
+
+        initData();
+        initRecyclerView();
 
 
         // Click Listener for the "New Chat" button
@@ -172,8 +187,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         });
 
 
-            initData();
-            initRecyclerView();
+
 
 
 
@@ -202,12 +216,18 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         userList = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference("Messages");
+
+        dbr = databaseReference.child(userlogged);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Intent intent = getIntent();
                 String userlogged = intent.getStringExtra("username");
-                String dest = intent.getStringExtra("dest");
+
+
+
+
+
 
 
 
@@ -215,14 +235,20 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                     String usernameFromDB = ds.child("username").getValue(String.class);
                     boolean usernameStatusFromDB = ds.child("online").getValue(Boolean.class);
 
-                    if(!usernameFromDB.equals(userlogged))
+
+                    if(!usernameFromDB.equals(userlogged) && myList.contains(usernameFromDB))
                     {
+
+                        Log.d("ho passato il prmo if", "primo if ok");
+
                         if(usernameStatusFromDB == true) {
-                            userList.add(new ModelClass(usernameFromDB,"online" ));
-                        } else {
-                            userList.add(new ModelClass(usernameFromDB,"offline" ));
+                            userList.add(new ModelClass((String) myList.get(i),"online" ));
+                       } else {
+                            userList.add(new ModelClass((String) myList.get(i),"offline" ));
                         }
-                        Log.d("Usernames",usernameFromDB.toString());
+
+                        i++;
+
                     }
 
 
@@ -233,6 +259,38 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+
+        dbr.addListenerForSingleValueEvent(new ValueEventListener() {
+
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot ds : snapshot.getChildren())
+                {
+                    String parent = ds.getKey();
+
+                    if(!parent.equals("dest")){
+                        myList.add(parent);
+
+                        myList.remove("online");
+                        myList.remove("password");
+                        myList.remove("username");
+
+
+                    }
+
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
    }
@@ -304,7 +362,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 //        Intent intent = getIntent();
 //        String userlogged = intent.getStringExtra("username");
 //        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
-//        databaseReference = database.getReference("Users");
+//        databaseReference = database.getReference("Messages");
 //
 //        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
@@ -318,6 +376,8 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 //
 //            }
 //        });
+//
+//        initData();
 //    }
 
 
@@ -336,6 +396,26 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         startActivity(chatIntent);
     }
 
+    public static  List<String> removeDuplicates(List<String> list)
+    {
+
+        // Create a new ArrayList
+        List<String> newList = new ArrayList<String>();
+
+        // Traverse through the first list
+        for (String element : list) {
+
+            // If this element is not present in newList
+            // then add it
+            if (!newList.contains(element)) {
+
+                newList.add(element);
+            }
+        }
+
+        // return the new list
+        return newList;
+    }
 
 
 

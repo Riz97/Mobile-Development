@@ -116,7 +116,7 @@ public class NewChatActivity extends AppCompatActivity {
    newChatButton.setOnClickListener(new View.OnClickListener() {
        @Override
        public void onClick(View view) {
-           Intent i = new Intent(NewChatActivity.this, ChatListActivity.class);
+           Intent i = new Intent(NewChatActivity.this, ChatActivity.class);
            String s = searchView.getQuery().toString();
            i.putExtra("username", userlogged);
            i.putExtra("dest",s);
@@ -127,6 +127,7 @@ public class NewChatActivity extends AppCompatActivity {
                @Override
                public void onDataChange(@NonNull DataSnapshot snapshot) {
                    String s = searchView.getQuery().toString();
+                   i.putExtra("dest",s);
 
 
                }
@@ -138,6 +139,7 @@ public class NewChatActivity extends AppCompatActivity {
            });
 
 
+           Log.d("newchat",s);
 
 
            startActivity(i);
