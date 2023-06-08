@@ -54,7 +54,7 @@ public class ChatActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         userName = getIntent().getExtras().getString("username");
-        otherName = getIntent().getExtras().getString("othername");
+        otherName = getIntent().getExtras().getString("dest");
         sendImage = (ImageView) findViewById(R.id.sendImage);
         chatUserName = (TextView)findViewById(R.id.chatUserName);
         chatEditText = (EditText)findViewById(R.id.chatEditText);
@@ -86,15 +86,15 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void sendMessage(String text){
-        final String key = reference.child("Messages").child(userName).child(otherName).push().getKey();
+        final String key = reference.child("Messages").child(userName).child("dest").push().getKey();
         final Map messageMap = new HashMap();
         messageMap.put("text" , text);
         messageMap.put("from" , userName);
-        reference.child("Messages").child(userName).child(otherName).child(key).setValue(messageMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+        reference.child("Messages").child(userName).child("dest").child(key).setValue(messageMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    reference.child("Messages").child(otherName).child(userName).child(key).setValue(messageMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    reference.child("Messages").child("dest").child(userName).child(key).setValue(messageMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
 
@@ -107,7 +107,8 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void loadMessage(){
-        reference.child("Messages").child(userName).child(otherName).addChildEventListener(new ChildEventListener() {
+            reference.child("Messages").child(userName).child("dest").setValue(otherName);
+            reference.child("Messages").child(userName).child("dest").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull  DataSnapshot snapshot, @Nullable  String previousChildName) {
                 MessageModel messageModel = snapshot.getValue(MessageModel.class);

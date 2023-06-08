@@ -321,13 +321,10 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         Intent intent = getIntent();
         String userlogged = intent.getStringExtra("username");
 
-
-
         Intent chatIntent = new Intent(ChatListActivity.this, ChatActivity.class);
         String other = ((TextView) recyclerView.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.textViewUsername)).getText().toString();
 
-
-        chatIntent.putExtra("othername", other);
+        chatIntent.putExtra("dest", other);
         chatIntent.putExtra("username", userlogged);
 
         startActivity(chatIntent);
