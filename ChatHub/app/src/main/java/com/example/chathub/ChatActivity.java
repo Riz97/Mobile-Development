@@ -43,11 +43,9 @@ public class ChatActivity extends AppCompatActivity {
     TextView chatUserName;
     ImageView backImage , sendImage;
     EditText chatEditText;
-
     FirebaseDatabase firebaseDatabase;
     DatabaseReference reference;
     RecyclerView chatRecyclerView;
-
     MessageAdapter messageAdapter;
     List<MessageModel> list;
 
@@ -57,8 +55,6 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
-
 
         userName = getIntent().getExtras().getString("username");
         otherName = getIntent().getExtras().getString("othername");

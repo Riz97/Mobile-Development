@@ -38,16 +38,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         String name = userList.get(position).getTextViewUsername();
         String status = userList.get(position).getTextViewStatus();
         holder.setData(name, status);
-
-
     }
 
     @Override
     public int getItemCount() {
         return userList.size();
     }
-
-
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView textViewUsername;
@@ -82,10 +78,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
             } else {
                 textViewStatus.setTextColor(Color.parseColor("#ff0000"));
             }
-
         }
-
-
-
     }
+
 }

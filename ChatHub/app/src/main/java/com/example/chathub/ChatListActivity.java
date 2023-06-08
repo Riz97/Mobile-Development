@@ -45,15 +45,12 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
 
- getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
-
-
-     Intent intent = getIntent();
-     String userlogged = intent.getStringExtra("username");
-     String newChatUser = intent.getStringExtra("dest");
-
+        Intent intent = getIntent();
+        String userlogged = intent.getStringExtra("username");
+        String newChatUser = intent.getStringExtra("dest");
 
 
         String foo = intent.getStringExtra("dest");
@@ -65,18 +62,12 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         }
 
 
-
-
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference("Users");
 
 
         String sharedPrefFile = "com.example.chathub";
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-
-
-
-
 
 
         // Click Listener for the "New Chat" button
@@ -136,7 +127,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                     preferencesEditor.putInt("logged", 1);
                     preferencesEditor.apply();
 
-
                 }
             });
 
@@ -165,9 +155,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                     String usernameFromDB = ds.child("username").getValue(String.class);
                     usernames.add(usernameFromDB);
 
-
                 }
-
             }
 
             @Override
@@ -176,10 +164,8 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
             }
         });
 
-
         initData();
         initRecyclerView();
-
     }
 
     @Override
