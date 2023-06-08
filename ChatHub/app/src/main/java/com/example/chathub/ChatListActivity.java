@@ -72,7 +72,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         String sharedPrefFile = "com.example.chathub";
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
-        
+
 
         // Click Listener for the "New Chat" button
         Button newChatButton = (Button) findViewById(R.id.buttonNewChat);
