@@ -1,12 +1,14 @@
 package com.example.chathub;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -38,7 +40,10 @@ public class NewChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_chat);
         String text;
+        ActionBar actionBar = getSupportActionBar();
 
+        // showing the back button in action bar
+        actionBar.setDisplayHomeAsUpEnabled(true);
         Button newChatButton = (Button)findViewById(R.id.buttonNew);
 
         SearchView searchView = findViewById(R.id.searchView);
@@ -130,11 +135,7 @@ public class NewChatActivity extends AppCompatActivity {
 
 
 
-
            startActivity(i);
-
-
-
 
        }
    });
@@ -143,7 +144,16 @@ public class NewChatActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
 
+        return super.onOptionsItemSelected(item);
+    }
 
 
 

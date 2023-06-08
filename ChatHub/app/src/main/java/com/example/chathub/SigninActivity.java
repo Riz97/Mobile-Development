@@ -94,6 +94,7 @@ public class SigninActivity extends AppCompatActivity {
                     databaseReference.child(username).child("username").setValue(username);
                     databaseReference.child(username).child("online").setValue(status);
 
+                    databaseMessagesReference.child(username).child("password").setValue(password);
                     databaseMessagesReference.child(username).child("username").setValue(username);
                     databaseMessagesReference.child(username).child("online").setValue(status);
 

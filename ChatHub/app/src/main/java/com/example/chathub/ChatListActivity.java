@@ -318,43 +318,20 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
     @Override
     public void onItemClick(int position) {
-        //Intent intent = getIntent();
-        //String userlogged = intent.getStringExtra("username");
+        Intent intent = getIntent();
+        String userlogged = intent.getStringExtra("username");
 
-        int LAUNCH_CHAT_ACTIVITY = 1;
+
+
         Intent chatIntent = new Intent(ChatListActivity.this, ChatActivity.class);
         String other = ((TextView) recyclerView.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.textViewUsername)).getText().toString();
+
+
         chatIntent.putExtra("othername", other);
         chatIntent.putExtra("username", userlogged);
-        startActivityForResult(chatIntent, LAUNCH_CHAT_ACTIVITY);
 
-        //Intent chatIntent = new Intent(ChatListActivity.this, ChatActivity.class);
-        //String other = ((TextView) recyclerView.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.textViewUsername)).getText().toString();
-        //Intent intent = getIntent();
-
-        //String userlogged = intent.getStringExtra("username");
-
-        //chatIntent.putExtra("othername", other);
-        //chatIntent.putExtra("username", userlogged);
-
-        //startActivity(chatIntent);
+        startActivity(chatIntent);
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent chat) {
-        super.onActivityResult(requestCode, resultCode, chat);
-
-        if (requestCode == 1) {
-            if(resultCode == Activity.RESULT_OK){
-                userlogged = chat.getStringExtra("username");
-                newChatUser = chat.getStringExtra("dest");
-                Log.d("OnActRes", userlogged);
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                // Write your code if there's no result
-            }
-        }
-    } //onActivityResult
 
 
 

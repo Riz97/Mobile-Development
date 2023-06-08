@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
                 final String userEnteredUsername = editUsername.getText().toString().trim();
                 final String userEnteredPassword = editPassword.getText().toString().trim();
-                DatabaseReference reference = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Users");
+                DatabaseReference reference = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Messages");
                 Query checkUser = reference.orderByChild("username").equalTo(userEnteredUsername);
                 checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
