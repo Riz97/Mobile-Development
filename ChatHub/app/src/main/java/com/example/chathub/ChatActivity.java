@@ -146,5 +146,6 @@ public class ChatActivity extends AppCompatActivity {
         intentChatList.putExtra("username", userName);
         intentChatList.putExtra("dest", otherName);
         setResult(1, intentChatList);
+        startActivity(intentChatList);
     }
 }
