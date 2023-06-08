@@ -36,13 +36,13 @@ public class NewChatActivity extends AppCompatActivity {
 
 
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_chat);
         String text;
         ActionBar actionBar = getSupportActionBar();
+
         Intent intent = getIntent();
-        userlogged = intent.getStringExtra("username");
+        userlogged = intent.getStringExtra("userlogged");
         // showing the back button in action bar
         actionBar.setDisplayHomeAsUpEnabled(true);
         Button newChatButton = (Button)findViewById(R.id.buttonNew);
@@ -84,7 +84,6 @@ public class NewChatActivity extends AppCompatActivity {
             Toast.makeText(NewChatActivity.this, "No Match found",Toast.LENGTH_LONG).show();
 
         }
-
         return false;
     }
 
@@ -119,6 +118,7 @@ public class NewChatActivity extends AppCompatActivity {
        public void onClick(View view) {
            Intent i = new Intent(NewChatActivity.this, ChatListActivity.class);
            String s = searchView.getQuery().toString();
+           i.putExtra("username", userlogged);
            i.putExtra("dest",s);
            i.putExtra("new",1);
 

@@ -80,8 +80,9 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
             @Override
             public void onClick(View view) {
                 // New Chat
-                Intent logoutIntent = new Intent(ChatListActivity.this, NewChatActivity.class);
-                startActivity(logoutIntent);
+                Intent newChatIntent = new Intent(ChatListActivity.this, NewChatActivity.class);
+                newChatIntent.putExtra("userlogged", userlogged);
+                startActivity(newChatIntent);
             }
         });
 
