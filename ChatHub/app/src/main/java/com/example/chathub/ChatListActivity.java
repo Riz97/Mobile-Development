@@ -210,11 +210,12 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                 String dest = intent.getStringExtra("dest");
 
 
+
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     String usernameFromDB = ds.child("username").getValue(String.class);
                     boolean usernameStatusFromDB = ds.child("online").getValue(Boolean.class);
 
-                    if(!usernameFromDB.equals(userlogged) && ds.child(usernameFromDB).child(dest).getValue(String.class)!=null)
+                    if(!usernameFromDB.equals(userlogged))
                     {
                         if(usernameStatusFromDB == true) {
                             userList.add(new ModelClass(usernameFromDB,"online" ));

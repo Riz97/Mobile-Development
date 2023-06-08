@@ -97,6 +97,7 @@ public class SigninActivity extends AppCompatActivity {
                     databaseMessagesReference.child(username).child("password").setValue(password);
                     databaseMessagesReference.child(username).child("username").setValue(username);
                     databaseMessagesReference.child(username).child("online").setValue(status);
+                    databaseMessagesReference.child(username).child("dest").setValue("");
 
                     Intent signinIntent = new Intent(SigninActivity.this, MainActivity.class);
                     startActivity(signinIntent);
