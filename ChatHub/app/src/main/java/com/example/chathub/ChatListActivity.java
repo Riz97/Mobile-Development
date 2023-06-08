@@ -216,10 +216,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                         Log.d("Usernames",usernameFromDB.toString());
                     }
 
-                    if(getIntent().getStringExtra("dest") != null)
-                    {
-                        userList.add(new ModelClass(getIntent().getStringExtra("dest"),"offline"));
-                    }
 
 
                 }

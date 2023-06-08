@@ -30,7 +30,7 @@ import java.util.List;
 
 public class NewChatActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
-
+    String userlogged;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -41,7 +41,8 @@ public class NewChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_chat);
         String text;
         ActionBar actionBar = getSupportActionBar();
-
+        Intent intent = getIntent();
+        userlogged = intent.getStringExtra("username");
         // showing the back button in action bar
         actionBar.setDisplayHomeAsUpEnabled(true);
         Button newChatButton = (Button)findViewById(R.id.buttonNew);
@@ -121,6 +122,7 @@ public class NewChatActivity extends AppCompatActivity {
            i.putExtra("dest",s);
            i.putExtra("new",1);
 
+
            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                @Override
                public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -135,6 +137,7 @@ public class NewChatActivity extends AppCompatActivity {
 
 
 
+
            startActivity(i);
 
        }
@@ -146,10 +149,15 @@ public class NewChatActivity extends AppCompatActivity {
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+
+
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
                 return true;
+
+
         }
 
         return super.onOptionsItemSelected(item);

@@ -107,7 +107,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void loadMessage(){
-            reference.child("Messages").child(userName).child(otherName).setValue(otherName);
+            //reference.child("Messages").child(userName).child(otherName).setValue(otherName);
             reference.child("Messages").child(userName).child(otherName).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull  DataSnapshot snapshot, @Nullable  String previousChildName) {
