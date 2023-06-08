@@ -78,7 +78,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
 
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
-        databaseReference = database.getReference("Users");
+
 
 
         String sharedPrefFile = "com.example.chathub";
@@ -330,8 +330,8 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 //
 //
 //    }
-
-
+//
+//
 //    @Override
 //    protected void onPause(){
 //        super.onPause();
@@ -354,8 +354,8 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 //        });
 //
 //    }
-
-
+//
+//
 //    @Override
 //    protected void onResume(){
 //        super.onResume();

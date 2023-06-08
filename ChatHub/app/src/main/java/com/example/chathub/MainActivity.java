@@ -21,29 +21,24 @@ import com.google.firebase.database.ValueEventListener;
 
 // Login window
 public class MainActivity extends AppCompatActivity {
-    private static final String LOG_TAG = MainActivity.class.getSimpleName();
-    DatabaseReference databaseReference;
+
+
     private SharedPreferences mPreferences;
 
     DatabaseReference databaseMessagesReference;
-    User newUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
-        databaseReference = database.getReference("Users");
+        databaseMessagesReference = database.getReference("Messages");
+
+/*--------------------- Shared Preferences for the Dialog Box -------------------------------------*/
 
         String sharedPrefFile = "com.example.chathub";
         mPreferences = getSharedPreferences(sharedPrefFile,MODE_PRIVATE);
-
-        databaseMessagesReference = database.getReference("Messages");
-
-
         int logged = mPreferences.getInt("logged",0);
-
-
-
         if(logged == 1)
         {
             Intent signinIntent = new Intent(MainActivity.this, ChatListActivity.class);
@@ -56,9 +51,7 @@ public class MainActivity extends AppCompatActivity {
         EditText editUsername = (EditText) (findViewById(R.id.editTextUsername));
         EditText editPassword = (EditText) (findViewById(R.id.editTextPassword));
 
-
-
-
+/*---------------------                    SignIn Button             -------------------------------- */
 
         // Click Listener Sign In button:
         Button signinButton = (Button)findViewById(R.id.buttonSignin);
@@ -69,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(signinIntent);
             }
         });
+
+
+
+ ///////LOGIN BUTTON////////////////////////////
+
+  //It searches in the database user and password inserted in the editexts
 
 
         // Click Listener Sign In button:

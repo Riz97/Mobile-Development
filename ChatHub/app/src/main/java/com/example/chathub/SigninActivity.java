@@ -34,25 +34,36 @@ public class SigninActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
+
+        //Lists that contain all the users
         List<String> usernames = new ArrayList<String>();
         List<String> usernamesMessages = new ArrayList<String>();
+
+        /*-------------------------- Database Initializations ----------------------- */
+
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference("Users");
         databaseMessagesReference = database.getReference("Messages");
+
+
+        /*------------------------ Buttons and Editext Initializations -----------------------------*/
 
 
         EditText editUsername = (EditText) (findViewById(R.id.editTextUsername));
         EditText editPassword = (EditText) (findViewById(R.id.editTextPassword));
         EditText editConfirm = (EditText) (findViewById(R.id.editTextConfirmPassword));
         Button signIn = (Button) findViewById(R.id.buttonSignin);
+
+
+
         final String userEnteredUsername = editUsername.getText().toString().trim();
 
+
+        // In this part we populate the lists. In this way users cannot create profiles with the same username
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d(LOG_TAG,"sono qua");
-
 
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     String usernameFromDB = ds.child(userEnteredUsername).child("username").getValue(String.class);
@@ -70,7 +81,12 @@ public class SigninActivity extends AppCompatActivity {
 
             }
         });
+        /*--------------------------- SignIn Button ------------------------*/
 
+        /*It takes the password ,username and the confirmation of the password and save them in three variables
+        then it checks that the user is not already in the Database, and then if password and confirmpassword mathc
+        it will be created in the database a new user with that characteristics and you will be redirected to
+        the MainActivity , where you can login*/
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,13 +105,13 @@ public class SigninActivity extends AppCompatActivity {
 
 
                else if (password.equals(confirmPsw) && !usernames.contains(username)) {
-                    newUser = new User(username, password,status);
+                    newUser = new User(username, password,status); //??
 
 
                     databaseMessagesReference.child(username).child("password").setValue(password);
                     databaseMessagesReference.child(username).child("username").setValue(username);
                     databaseMessagesReference.child(username).child("online").setValue(status);
-                    //databaseMessagesReference.child(username).child("dest").setValue("");
+
 
                     Intent signinIntent = new Intent(SigninActivity.this, MainActivity.class);
                     startActivity(signinIntent);
