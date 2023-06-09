@@ -44,16 +44,16 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
     Adapter adapter;
     String userlogged = "";
     String newChatUser = "";
-
+    int i;
     List myList = new ArrayList<String>();
 
-    int i = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
-
+        int i = 0;
         Adapter adapter;
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -199,7 +199,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         switch (item.getItemId()){
 
         case R.id.refresh:
-            initData();
+            //initData();
             initRecyclerView();
         }
         return super.onOptionsItemSelected(item);
@@ -217,13 +217,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Intent intent = getIntent();
                 String userlogged = intent.getStringExtra("username");
-
-
-
-
-
-
-
 
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     String usernameFromDB = ds.child("username").getValue(String.class);
@@ -270,9 +263,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
                     if(!parent.equals("dest")){
                         myList.add(parent);
-
-
-
                         myList.remove("online");
                         myList.remove("password");
                         myList.remove("username");
@@ -293,6 +283,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
    }
 
     private void initRecyclerView() {
+
         recyclerView = findViewById(R.id.recyclerView);
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -302,81 +293,9 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         adapter.notifyDataSetChanged();
 
 
+
     }
 
-//    @Override
-//    protected void onStop(){
-//        super.onStop();
-//        Intent intent = getIntent();
-//        String userlogged = intent.getStringExtra("username");
-//        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
-//        databaseReference = database.getReference("Users");
-//
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                snapshot.getRef().child(userlogged).child("online").setValue(false);
-//                Log.d("onstop",userlogged.toString());
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//
-//
-//
-//    }
-//
-//
-//    @Override
-//    protected void onPause(){
-//        super.onPause();
-//        Intent intent = getIntent();
-//        String userlogged = intent.getStringExtra("username");
-//        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
-//        databaseReference = database.getReference("Users");
-//
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                snapshot.getRef().child(userlogged).child("online").setValue(false);
-//                Log.d("onstop",userlogged.toString());
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//
-//    }
-//
-//
-//    @Override
-//    protected void onResume(){
-//        super.onResume();
-//        Intent intent = getIntent();
-//        String userlogged = intent.getStringExtra("username");
-//        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
-//        databaseReference = database.getReference("Messages");
-//
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                snapshot.getRef().child(userlogged).child("online").setValue(true);
-//                Log.d("onstop",userlogged.toString());
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//
-//        initData();
-//    }
 
 
 
@@ -422,6 +341,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
 
                 adapter.notifyDataSetChanged();
+
 
 
 
