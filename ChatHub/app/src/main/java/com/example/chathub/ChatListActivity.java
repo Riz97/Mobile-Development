@@ -46,7 +46,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
     String newChatUser = "";
     int i = 0;
     List myList = new ArrayList<String>();
-
+    ArrayList list_aux = new  ArrayList<String>() ;
 
 
     @Override
@@ -223,18 +223,23 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                     boolean usernameStatusFromDB = ds.child("online").getValue(Boolean.class);
 
 
-                    if(!usernameFromDB.equals(userlogged) && myList.contains(usernameFromDB))
-                    {
+                    for (i = 0; i < myList.size()-i+1; i++) {
 
-                       
 
-                        if(usernameStatusFromDB == true) {
-                            userList.add(new ModelClass((String) myList.get(i),"online" ));
-                       } else {
-                            userList.add(new ModelClass((String) myList.get(i),"offline" ));
+                        if (!usernameFromDB.equals(userlogged) && myList.contains(usernameFromDB)) {
+
+
+                            if (usernameStatusFromDB == true) {
+                                userList.add(new ModelClass((String) myList.get(i), "online"));
+                            } else {
+                                userList.add(new ModelClass((String) myList.get(i), "offline"));
+                            }
+
+
+
+                            //i++;
                         }
 
-                        i++;
 
                     }
 
@@ -262,12 +267,18 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
 
                     if(!parent.equals("dest")){
-                        myList.add(parent);
-                        myList.remove("online");
-                        myList.remove("password");
-                        myList.remove("username");
-                        Log.d("Lista all'inizio ",parent.toString());
 
+
+
+                        list_aux.add(parent);
+                        list_aux.remove("online");
+                        list_aux.remove("password");
+                        list_aux.remove("username");
+
+
+
+                        myList = removeDuplicates(list_aux);
+                        Log.d("Lista all'inizio ",myList.toString());
                     }
 
 
@@ -359,5 +370,27 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         adapter.notifyItemRemoved(position);
         adapter.notifyDataSetChanged();
 
+    }
+
+
+    public static <String> ArrayList<String> removeDuplicates(ArrayList<String> list)
+    {
+
+        // Create a new ArrayList
+        ArrayList<String> newList = new ArrayList<String>();
+
+        // Traverse through the first list
+        for (String element : list) {
+
+            // If this element is not present in newList
+            // then add it
+            if (!newList.contains(element)) {
+
+                newList.add(element);
+            }
+        }
+
+        // return the new list
+        return newList;
     }
 }
