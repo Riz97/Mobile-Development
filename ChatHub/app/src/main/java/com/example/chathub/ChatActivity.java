@@ -155,7 +155,9 @@ public class ChatActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Intent intent = new Intent(ChatActivity.this, ChatListActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("username", userName);
+        startActivity(intent);
     }
 
 
