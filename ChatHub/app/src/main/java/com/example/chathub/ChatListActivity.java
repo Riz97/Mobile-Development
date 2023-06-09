@@ -54,9 +54,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
 
-
-
-
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Intent intent = getIntent();
@@ -185,11 +182,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
             }
         });
-
-
-
-
-
 
     }
 
@@ -396,27 +388,8 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         startActivity(chatIntent);
     }
 
-    public static  List<String> removeDuplicates(List<String> list)
-    {
+    @Override
+    public void onItemLongClick(int position) {
 
-        // Create a new ArrayList
-        List<String> newList = new ArrayList<String>();
-
-        // Traverse through the first list
-        for (String element : list) {
-
-            // If this element is not present in newList
-            // then add it
-            if (!newList.contains(element)) {
-
-                newList.add(element);
-            }
-        }
-
-        // return the new list
-        return newList;
     }
-
-
-
 }

@@ -67,6 +67,23 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
                     }
                 }
             });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if(recyclerViewInterface != null) {
+                        int pos = getAdapterPosition();
+
+                        ViewHolder holder = (ViewHolder) v.getTag();
+                        if (v.getId() == holder.textViewStatus.getId()) {
+                            userList.remove(holder.getPosition());
+
+                            notifyDataSetChanged();
+                        }
+                    }
+                    return false;
+                }
+            });
         }
 
         public void setData(String name, String status) {

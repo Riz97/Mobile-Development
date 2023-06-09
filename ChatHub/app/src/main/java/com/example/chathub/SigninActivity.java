@@ -106,12 +106,9 @@ public class SigninActivity extends AppCompatActivity {
 
                else if (password.equals(confirmPsw) && !usernames.contains(username)) {
 
-
-
                     databaseMessagesReference.child(username).child("password").setValue(password);
                     databaseMessagesReference.child(username).child("username").setValue(username);
                     databaseMessagesReference.child(username).child("online").setValue(status);
-
 
                     Intent signinIntent = new Intent(SigninActivity.this, MainActivity.class);
                     startActivity(signinIntent);
