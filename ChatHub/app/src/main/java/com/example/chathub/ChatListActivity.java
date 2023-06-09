@@ -267,6 +267,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                 {
                     String parent = ds.getKey();
 
+
                     if(!parent.equals("dest")){
                         myList.add(parent);
 
@@ -297,6 +298,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         adapter = new Adapter(userList, this);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+
 
     }
 
@@ -392,6 +394,39 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
     @Override
     public void onItemLongClick(int position) {
+
+        String other = ((TextView) recyclerView.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.textViewUsername)).getText().toString();
+
+        dbr.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot ds : snapshot.getChildren())
+                {
+                    String parent = ds.getKey();
+
+                    Log.d("stronzi con cui messaggio",parent.toString());
+                    Log.d("Stronzo da cancellare",other);
+
+                    if(parent.equals(other))
+                    {
+
+                        snapshot.child(userlogged).getRef().setValue(null);
+                    }
+                }
+
+                adapter.notifyDataSetChanged();
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
         userList.remove(position);
         adapter.notifyItemRemoved(position);
     }
