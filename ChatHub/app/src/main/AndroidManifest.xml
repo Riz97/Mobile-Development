@@ -20,6 +20,7 @@
             android:label="Chat"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:parentActivityName=".ChatListActivity"
+            android:noHistory="true"
             />
         <activity
             android:name=".NewChatActivity"
