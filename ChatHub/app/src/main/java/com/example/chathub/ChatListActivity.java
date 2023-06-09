@@ -44,7 +44,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
     Adapter adapter;
     String userlogged = "";
     String newChatUser = "";
-    int i;
+    int i = 0;
     List myList = new ArrayList<String>();
 
 
@@ -53,8 +53,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
-        int i = 0;
-        Adapter adapter;
+
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -199,7 +198,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         switch (item.getItemId()){
 
         case R.id.refresh:
-            //initData();
+            initData();
             initRecyclerView();
         }
         return super.onOptionsItemSelected(item);
@@ -218,6 +217,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                 Intent intent = getIntent();
                 String userlogged = intent.getStringExtra("username");
 
+
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     String usernameFromDB = ds.child("username").getValue(String.class);
                     boolean usernameStatusFromDB = ds.child("online").getValue(Boolean.class);
@@ -226,7 +226,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                     if(!usernameFromDB.equals(userlogged) && myList.contains(usernameFromDB))
                     {
 
-                        Log.d("ho passato il prmo if", "primo if ok");
+                       
 
                         if(usernameStatusFromDB == true) {
                             userList.add(new ModelClass((String) myList.get(i),"online" ));
@@ -357,6 +357,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
         userList.remove(position);
         adapter.notifyItemRemoved(position);
+        adapter.notifyDataSetChanged();
 
     }
 }
