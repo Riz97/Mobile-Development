@@ -271,10 +271,12 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                     if(!parent.equals("dest")){
                         myList.add(parent);
 
+
+
                         myList.remove("online");
                         myList.remove("password");
                         myList.remove("username");
-
+                        Log.d("Lista all'inizio ",parent.toString());
 
                     }
 
@@ -411,11 +413,17 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                     if(parent.equals(other))
                     {
 
-                        snapshot.child(userlogged).getRef().setValue(null);
+                        snapshot.child(other).getRef().setValue(null);
+                        myList.remove(other);
+                        Log.d("lista alla cancellazione",parent);
                     }
                 }
 
+
+
                 adapter.notifyDataSetChanged();
+
+
 
 
             }
@@ -429,5 +437,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
         userList.remove(position);
         adapter.notifyItemRemoved(position);
+
     }
 }
