@@ -54,6 +54,8 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
 
+        Adapter adapter;
+
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Intent intent = getIntent();
@@ -390,6 +392,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
     @Override
     public void onItemLongClick(int position) {
-
+        userList.remove(position);
+        adapter.notifyItemRemoved(position);
     }
 }

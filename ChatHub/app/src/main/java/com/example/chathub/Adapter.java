@@ -74,14 +74,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
                     if(recyclerViewInterface != null) {
                         int pos = getAdapterPosition();
 
-                        ViewHolder holder = (ViewHolder) v.getTag();
-                        if (v.getId() == holder.textViewStatus.getId()) {
-                            userList.remove(holder.getPosition());
-
-                            notifyDataSetChanged();
+                        if(pos != RecyclerView.NO_POSITION) {
+                            recyclerViewInterface.onItemLongClick(pos);
                         }
                     }
-                    return false;
+                    return true;
                 }
             });
         }
