@@ -56,6 +56,8 @@ public class NewChatActivity extends AppCompatActivity {
         databaseReference = database.getReference("Messages");
 
 
+        /* Filling up a list that contains all the users in the database */
+
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -73,9 +75,13 @@ public class NewChatActivity extends AppCompatActivity {
         });
 
      ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,usernames);
-
      listView.setAdapter(adapter);
+
+     /* --------------------SearchView Behavior ------------------------- */
+
      searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+         /* If the name does not exists it will raise a toast   */
     @Override
     public boolean onQueryTextSubmit(String s) {
         if(usernames.contains(s)){
@@ -87,6 +93,7 @@ public class NewChatActivity extends AppCompatActivity {
         return false;
     }
 
+    /* If the user exists ,  make it visible */
     @Override
     public boolean onQueryTextChange(String s) {
         String text = s;
@@ -103,6 +110,8 @@ public class NewChatActivity extends AppCompatActivity {
 
      });
 
+     /* If you click on the user suggestion , it will be automatically written inside the searchView */
+
    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
        @Override
        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -113,6 +122,8 @@ public class NewChatActivity extends AppCompatActivity {
        }
    });
 
+   /* -------------------------- New Chat Button Behavior ----------------------------------- */
+
    newChatButton.setOnClickListener(new View.OnClickListener() {
        @Override
        public void onClick(View view) {
@@ -121,14 +132,13 @@ public class NewChatActivity extends AppCompatActivity {
            i.putExtra("username", userlogged);
            i.putExtra("dest",s);
            i.putExtra("new",1);
-           databaseReference.child(userlogged).child("dest").setValue(s);
+           //databaseReference.child(userlogged).child("dest").setValue(s);
 
            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                @Override
                public void onDataChange(@NonNull DataSnapshot snapshot) {
                    String s = searchView.getQuery().toString();
                    i.putExtra("dest",s);
-
 
                }
 
@@ -137,9 +147,6 @@ public class NewChatActivity extends AppCompatActivity {
 
                }
            });
-
-
-           Log.d("newchat",s);
 
 
            startActivity(i);
@@ -151,6 +158,8 @@ public class NewChatActivity extends AppCompatActivity {
 
 
     }
+
+    /* ------------------Back Arrow Button -------------------------*/
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -163,6 +172,54 @@ public class NewChatActivity extends AppCompatActivity {
     }
 
 
+    /* ------------------------------------- OnPause and OnResume ----------------------------------*/
+    /* Set the status of the User , online if the user is inside the activity and offline if the activity is paused */
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
+        databaseReference = database.getReference("Messages");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                snapshot.getRef().child(userlogged).child("online").setValue(false);
+                Log.d("onstop",userlogged.toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
+        databaseReference = database.getReference("Messages");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                snapshot.getRef().child(userlogged).child("online").setValue(true);
+                Log.d("onstop",userlogged.toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+    }
 
 
 

@@ -1,5 +1,9 @@
 package com.example.chathub;
 
+
+/* Class for handling and creating messages in ChatActivity */
+
+
 public class MessageModel {
     private String from, text;
 

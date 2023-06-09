@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,6 +43,8 @@ public class ChatActivity extends AppCompatActivity {
     RecyclerView chatRecyclerView;
     MessageAdapter messageAdapter;
     List<MessageModel> list;
+
+    DatabaseReference databaseReference;
 
 
 
@@ -61,10 +65,10 @@ public class ChatActivity extends AppCompatActivity {
         chatUserName.setText(otherName);
 
         list = new ArrayList<>();
-
         firebaseDatabase = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         reference = firebaseDatabase.getReference();
 
+        /*------------------ Send Message Button ----------------------------------------*/
         sendImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,9 +78,10 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+        /* Creation of the RecyclerView and load all the messages if there are any */
+
 
         loadMessage();
-
         chatRecyclerView = (RecyclerView)findViewById(R.id.chatRecyclerView);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(ChatActivity.this, 1);
         chatRecyclerView.setLayoutManager(layoutManager);
@@ -84,6 +89,12 @@ public class ChatActivity extends AppCompatActivity {
         chatRecyclerView.setAdapter(messageAdapter);
 
     }
+
+
+    /* ----------------------------- Send Message Function ---------------------------- */
+
+    /* Send  the message and upload it  in the RecyclerView and update  the database of the user logged
+    * creating a child which is the dest and other two children which contains the text of the message and the sender name  */
 
     public void sendMessage(String text){
         final String key = reference.child("Messages").child(userName).child(otherName).push().getKey();
@@ -106,6 +117,11 @@ public class ChatActivity extends AppCompatActivity {
         });
 
     }
+
+    /* ----------------------------- Load Message Function ---------------------------- */
+
+    /* Load all the messages in the RecyclerView taken from the database of the user logged */
+
 
     public void loadMessage(){
             //reference.child("Messages").child(userName).child(otherName).setValue(otherName);
@@ -140,6 +156,9 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    /* ----------------------- Back Arrow Functions -------------------- */
+    /* They handle the behavior of the back arrow when it is pressed and it which activity you will be redirected */
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -159,6 +178,8 @@ public class ChatActivity extends AppCompatActivity {
         intent.putExtra("username", userName);
         startActivity(intent);
     }
+
+
 
 
 
