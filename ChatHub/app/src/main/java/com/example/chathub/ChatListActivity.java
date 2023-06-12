@@ -164,7 +164,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
 
         List<String> usernames = new ArrayList<String>();
-        databaseReference = database.getReference("Users");
+        databaseReference = database.getReference("Messages");
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -319,6 +319,11 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         Intent intent = getIntent();
         String userlogged = intent.getStringExtra("username");
 
+        Integer log = mPreferences.getInt("logged", 0);
+        if (log == 1) {
+            userlogged = mPreferences.getString("userlogged", "");
+        }
+
         Intent chatIntent = new Intent(ChatListActivity.this, ChatActivity.class);
         String other = ((TextView) recyclerView.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.textViewUsername)).getText().toString();
 
@@ -341,15 +346,13 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                 {
                     String parent = ds.getKey();
 
-                    Log.d("stronzi con cui messaggio",parent.toString());
-                    Log.d("Stronzo da cancellare",other);
 
                     if(parent.equals(other))
                     {
 
                         snapshot.child(other).getRef().setValue(null);
                         myList.remove(other);
-                        Log.d("lista alla cancellazione",parent);
+
                     }
                 }
                 adapter.notifyDataSetChanged();
@@ -405,44 +408,20 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         Log.d("ON_PAUSE", userlogged);
 
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                snapshot.getRef().child(userlogged).child("online").setValue(false);
-                Log.d("ON_PAUSE", userlogged.toString());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
-        Intent intent = getIntent();
-        String userlogged = intent.getStringExtra("username");
+        //Intent intent = getIntent();
+        //String userlogged = intent.getStringExtra("username");
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference("Messages");
 
-        userlogged = mPreferences.getString("userlogged", "");
+        String userlogged = mPreferences.getString("userlogged", "");
         //Log.d("USERLOGGED_ON_RESUME", userlogged);
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                snapshot.getRef().child(userlogged).child("online").setValue(true);
-                Log.d("ON_RESUME", userlogged.toString());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
     /*
