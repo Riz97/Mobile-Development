@@ -47,17 +47,13 @@ public class SigninActivity extends AppCompatActivity {
 
 
         /*------------------------ Buttons and Editext Initializations -----------------------------*/
-
-
+        
         EditText editUsername = (EditText) (findViewById(R.id.editTextUsername));
         EditText editPassword = (EditText) (findViewById(R.id.editTextPassword));
         EditText editConfirm = (EditText) (findViewById(R.id.editTextConfirmPassword));
         Button signIn = (Button) findViewById(R.id.buttonSignin);
 
-
-
         final String userEnteredUsername = editUsername.getText().toString().trim();
-
 
         // In this part we populate the lists. In this way users cannot create profiles with the same username
 
@@ -81,8 +77,8 @@ public class SigninActivity extends AppCompatActivity {
 
             }
         });
-        /*--------------------------- SignIn Button ------------------------*/
 
+        /*--------------------------- SignIn Button ------------------------*/
         /*It takes the password ,username and the confirmation of the password and save them in three variables
         then it checks that the user is not already in the Database, and then if password and confirmpassword mathc
         it will be created in the database a new user with that characteristics and you will be redirected to

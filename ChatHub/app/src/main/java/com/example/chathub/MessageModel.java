@@ -8,8 +8,8 @@ public class MessageModel {
     private String from, text;
 
     public MessageModel(){
-
     }
+
     public MessageModel(String from, String text) {
         this.from = from;
         this.text = text;

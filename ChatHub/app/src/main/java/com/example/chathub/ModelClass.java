@@ -5,7 +5,6 @@ import android.graphics.ColorSpace;
 /* Class the handle the creation of the Chats between users , making visible stauts
 and username which are two textView  */
 
-
 public class ModelClass {
     private String textViewUsername;
     private String textViewStatus;
