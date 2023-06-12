@@ -10,7 +10,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -33,8 +32,6 @@ import java.util.List;
 public class ChatListActivity extends AppCompatActivity implements RecyclerViewInterface {
     private static final String LOG_TAG = ChatListActivity.class.getSimpleName();
 
-    private SharedPreferences mPreferences;
-
     DatabaseReference databaseReference;
 
     DatabaseReference dbr;
@@ -54,17 +51,13 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
 
-
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Intent intent = getIntent();
         userlogged = intent.getStringExtra("username");
         newChatUser = intent.getStringExtra("dest");
 
-
-
         Log.d("USER_LOGGED", "User logged:" + userlogged);
-
 
         String foo = intent.getStringExtra("dest");
         int foo1 = intent.getIntExtra("new",0);
@@ -74,14 +67,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
             Log.d("test",foo);
         }
 
-
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
-
-
-
-        String sharedPrefFile = "com.example.chathub";
-        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-
 
         initData();
         initRecyclerView();
@@ -109,7 +95,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                     snapshot.getRef().child(userlogged).child("online").setValue(false);
+                        snapshot.getRef().child(userlogged).child("online").setValue(false);
                     }
 
                     @Override
@@ -122,59 +108,21 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                 Log.d("Logout", "ok");
                 Intent logoutIntent = new Intent(ChatListActivity.this, MainActivity.class);
                 startActivity(logoutIntent);
-                SharedPreferences.Editor preferencesEditor = mPreferences.edit();
-                preferencesEditor.clear();
-                preferencesEditor.apply();
             }
         });
 
 
-        int logged = mPreferences.getInt("logged", 0);
-        if (logged == 0) {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(ChatListActivity.this);
-            builder.setTitle("Logout Preference");
-            builder.setMessage("Would like to stay logged  with the same account when you reopen the app?");
-
-            //Button One : Yes
-            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    SharedPreferences.Editor preferencesEditor = mPreferences.edit();
-                    preferencesEditor.putInt("logged", 1);
-                    preferencesEditor.putString("userlogged", userlogged);
-                    preferencesEditor.apply();
-                }
-            });
-
-
-            //Button Two : No
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-
-            AlertDialog diag = builder.create();
-            diag.show();
-        }
-
-
 
         List<String> usernames = new ArrayList<String>();
-        databaseReference = database.getReference("Messages");
+        databaseReference = database.getReference("Users");
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d(LOG_TAG,"sono qua");
 
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     String usernameFromDB = ds.child("username").getValue(String.class);
                     usernames.add(usernameFromDB);
-
                 }
             }
 
@@ -186,6 +134,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
     }
 
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_chatlist,menu);
@@ -197,23 +146,19 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
 
-        case R.id.refresh:
-            initData();
-            initRecyclerView();
+            case R.id.refresh:
+                initData();
+                initRecyclerView();
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     private void initData() {
 
         userList = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference("Messages");
-
-        Integer log = mPreferences.getInt("logged", 0);
-        if (log == 1) {
-            userlogged = mPreferences.getString("userlogged", "");
-        }
 
         dbr = databaseReference.child(userlogged);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -223,11 +168,11 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                 String userlogged = intent.getStringExtra("username");
 
 
-                for (DataSnapshot ds : snapshot.getChildren()) {
+                for(DataSnapshot ds : snapshot.getChildren()) {
                     String usernameFromDB = ds.child("username").getValue(String.class);
                     boolean usernameStatusFromDB = ds.child("online").getValue(Boolean.class);
 
-                    if (!usernameFromDB.equals(userlogged) && myList.contains(usernameFromDB)) {
+                    if (!usernameFromDB.equals(userlogged) && myList.contains(usernameFromDB) ) {
                             /*
                             for (i = 0; i < myList.size(); i++) {
 
@@ -242,6 +187,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
                         for (i = 0; i < myList.size(); i++) {
                             Object element = myList.get(i);
+                            Log.d("LIST", element.toString());
 
                             boolean isNewElement = true;
                             for (ModelClass model : userList) {
@@ -258,10 +204,15 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                                     userList.add(new ModelClass((String) element, "offline"));
                                 }
                             }
+
+
                         }
+                        //i++;
                     }
+                    adapter.notifyDataSetChanged();
+
                 }
-                adapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -277,10 +228,10 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for(DataSnapshot ds : snapshot.getChildren()) {
+
                     String parent = ds.getKey();
 
                     if(!parent.equals("dest")){
-
                         list_aux.add(parent);
                         list_aux.remove("online");
                         list_aux.remove("password");
@@ -288,9 +239,11 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                         list_aux.remove("dest");
 
                         myList = removeDuplicates(list_aux);
-                        Log.d("Lista all'inizio ",myList.toString());
+                        Log.d("Lista all'inizio ", myList.toString());
                     }
+
                 }
+
             }
 
             @Override
@@ -298,10 +251,9 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
             }
         });
-   }
+    }
 
     private void initRecyclerView() {
-
         recyclerView = findViewById(R.id.recyclerView);
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -318,11 +270,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
     public void onItemClick(int position) {
         Intent intent = getIntent();
         String userlogged = intent.getStringExtra("username");
-
-        Integer log = mPreferences.getInt("logged", 0);
-        if (log == 1) {
-            userlogged = mPreferences.getString("userlogged", "");
-        }
 
         Intent chatIntent = new Intent(ChatListActivity.this, ChatActivity.class);
         String other = ((TextView) recyclerView.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.textViewUsername)).getText().toString();
@@ -342,17 +289,16 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for(DataSnapshot ds : snapshot.getChildren())
-                {
+                for(DataSnapshot ds : snapshot.getChildren()) {
                     String parent = ds.getKey();
 
+                    Log.d("stronzi con cui messaggio",parent.toString());
+                    Log.d("Stronzo da cancellare", other);
 
-                    if(parent.equals(other))
-                    {
-
+                    if(parent.equals(other)) {
                         snapshot.child(other).getRef().setValue(null);
                         myList.remove(other);
-
+                        Log.d("lista alla cancellazione",parent);
                     }
                 }
                 adapter.notifyDataSetChanged();
@@ -367,7 +313,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         userList.remove(position);
         adapter.notifyItemRemoved(position);
         adapter.notifyDataSetChanged();
-
     }
 
 
@@ -399,48 +344,40 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
     @Override
     protected void onPause(){
         super.onPause();
-        //Intent intent = getIntent();
-        //String userlogged = intent.getStringExtra("username");
+        Intent intent = getIntent();
+        String userlogged = intent.getStringExtra("username");
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference("Messages");
 
-        String userlogged = mPreferences.getString("userlogged", "");
-        Log.d("ON_PAUSE", userlogged);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                snapshot.getRef().child(userlogged).child("online").setValue(false);
+                Log.d("onstop",userlogged.toString());
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
 
     @Override
-    protected void onResume() {
+    protected void onResume(){
         super.onResume();
-        //Intent intent = getIntent();
-        //String userlogged = intent.getStringExtra("username");
+        Intent intent = getIntent();
+        String userlogged = intent.getStringExtra("username");
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference("Messages");
-
-        String userlogged = mPreferences.getString("userlogged", "");
-        //Log.d("USERLOGGED_ON_RESUME", userlogged);
-
-    }
-
-    /*
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        //Intent intent = getIntent();
-        //String userlogged = intent.getStringExtra("username");
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
-        databaseReference = database.getReference("Messages");
-
-        String userlogged = mPreferences.getString("userlogged", "");
-        Log.d("USERLOGGED_ON_RESTART", userlogged);
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                snapshot.getRef().child(userlogged).child("online").setValue(false);
-                Log.d("ON_RESTART", userlogged.toString());
+                snapshot.getRef().child(userlogged).child("online").setValue(true);
+                Log.d("onstop",userlogged.toString());
             }
 
             @Override
@@ -449,34 +386,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
             }
         });
 
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //Intent intent = getIntent();
-        //String userlogged = intent.getStringExtra("username");
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
-        databaseReference = database.getReference("Messages");
-
-        String userlogged = mPreferences.getString("userlogged", "");
-        Log.d("ON_STOP", userlogged);
-
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                snapshot.getRef().child(userlogged).child("online").setValue(false);
-                Log.d("ON_STOP", userlogged.toString());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
     }
-
-     */
 
 }
