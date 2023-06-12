@@ -38,7 +38,7 @@ public class NewChatActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_chat);
-        String text;
+
         ActionBar actionBar = getSupportActionBar();
 
         Intent intent = getIntent();

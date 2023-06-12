@@ -166,7 +166,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                     for(DataSnapshot ds : snapshot.getChildren()) {
                         String usernameFromDB = ds.child("username").getValue(String.class);
                         boolean usernameStatusFromDB = ds.child("online").getValue(Boolean.class);
-
+                        Log.d("status username", Boolean.toString(usernameStatusFromDB));
                         if (!usernameFromDB.equals(userlogged) && myList.contains(usernameFromDB) ) {
 
                             //Avoid repetition of chats
@@ -179,18 +179,20 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                                         isNewElement = false;
                                         break;
                                     }
-                                }
+
+
+                                 }
 
                                 if (isNewElement) {
-                                    if (usernameStatusFromDB == true) {
+                                    if (usernameStatusFromDB == true && usernameFromDB.equals(element)) {
                                         userList.add(new ModelClass((String) element, "online"));
-                                    } else {
+                                    } else if(usernameStatusFromDB == false && usernameFromDB.equals(element)) {
                                         userList.add(new ModelClass((String) element, "offline"));
                                     }
                                 }
 
+                        }
 
-                            }
 
                         }
                         adapter.notifyDataSetChanged();
@@ -202,8 +204,12 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                 // ---------------YES deletion---------------------------------
                 else if ( rem == 1) {
                     for (DataSnapshot ds : snapshot.getChildren()) {
+
+
                         String usernameFromDB = ds.child("username").getValue(String.class);
                         boolean usernameStatusFromDB = ds.child("online").getValue(Boolean.class);
+
+
 
                         if (!usernameFromDB.equals(userlogged) && myList.contains(usernameFromDB)) {
 
@@ -220,9 +226,12 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                                 }
 
                                 if (isNewElement) {
-                                    if (usernameStatusFromDB == true) {
+
+                                    Log.d("status username", Boolean.toString(usernameStatusFromDB));
+
+                                    if (usernameStatusFromDB == true && usernameFromDB.equals(element)) {
                                         userList.add(new ModelClass((String) element, "online"));
-                                    } else {
+                                    } else if(usernameStatusFromDB == false && usernameFromDB.equals(element)) {
                                         userList.add(new ModelClass((String) element, "offline"));
                                     }
                                 }
