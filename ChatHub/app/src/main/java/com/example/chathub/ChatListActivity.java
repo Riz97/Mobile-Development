@@ -223,17 +223,38 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                     String usernameFromDB = ds.child("username").getValue(String.class);
                     boolean usernameStatusFromDB = ds.child("online").getValue(Boolean.class);
 
-
-
-
-
                         if (!usernameFromDB.equals(userlogged) && myList.contains(usernameFromDB) ) {
+                            /*
                             for (i = 0; i < myList.size(); i++) {
 
-                            if (usernameStatusFromDB == true) {
-                                userList.add(new ModelClass((String) myList.get(i), "online"));
-                            } else {
-                                userList.add(new ModelClass((String) myList.get(i), "offline"));
+                                Log.d("LIST", myList.get(i).toString());
+
+                                if (usernameStatusFromDB == true) {
+                                    userList.add(new ModelClass((String) myList.get(i), "online"));
+                                } else {
+                                    userList.add(new ModelClass((String) myList.get(i), "offline"));
+                                }
+                             */
+
+                            for (i = 0; i < myList.size(); i++) {
+                                Object element = myList.get(i);
+                                Log.d("LIST", element.toString());
+
+                                boolean isNewElement = true;
+                                for (ModelClass model : userList) {
+                                    if (model.getTextViewUsername().equals(element)) {
+                                        isNewElement = false;
+                                        break;
+                                    }
+                                }
+
+                                if (isNewElement) {
+                                    if (usernameStatusFromDB == true) {
+                                        userList.add(new ModelClass((String) element, "online"));
+                                    } else {
+                                        userList.add(new ModelClass((String) element, "offline"));
+                                    }
+                                }
                             }
 
 
@@ -241,7 +262,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
                         }
 
-                    }
 
 
 
@@ -303,9 +323,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         adapter = new Adapter(userList, this);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
-
-
     }
 
 
@@ -362,7 +379,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
             }
         });
-
 
         userList.remove(position);
         adapter.notifyItemRemoved(position);
