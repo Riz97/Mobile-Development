@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         databaseMessagesReference = database.getReference("Messages");
 
 
-/*--------------------- Shared Preferences for the Dialog Box -------------------------------------*/
+        /*--------------------- Shared Preferences for the Dialog Box -------------------------------------*/
         // When you login you can decide whether to stay logged in or not.
         String sharedPrefFile = "com.example.chathub";
         mPreferences = getSharedPreferences(sharedPrefFile,MODE_PRIVATE);

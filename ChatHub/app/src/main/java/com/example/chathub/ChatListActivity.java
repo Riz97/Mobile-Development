@@ -31,9 +31,7 @@ import java.util.List;
 
 public class ChatListActivity extends AppCompatActivity implements RecyclerViewInterface {
     private static final String LOG_TAG = ChatListActivity.class.getSimpleName();
-
     DatabaseReference databaseReference;
-
     DatabaseReference dbr;
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
@@ -60,17 +58,12 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         newChatUser = intent.getStringExtra("dest");
 
 
-
-
-
         /* ---------------- MAIN ------------------ */
-
         initData();
         initRecyclerView();
 
 
         /* ----------------------- New Chat Button behavior --------------------- */
-
         // Click Listener for the "New Chat" button
         Button newChatButton = (Button) findViewById(R.id.buttonNewChat);
         newChatButton.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +78,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
 
         /* ------------------ LogOut Button Behaviour -------------------- */
-
         /* When clicked it sets the status of the user to offline and it redirects him to the Login */
 
         // Click Listener for the "Logout" button
@@ -93,8 +85,8 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Logout
 
+                // Logout
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -107,8 +99,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                     }
                 });
 
-
-                Log.d("Logout", "ok");
                 Intent logoutIntent = new Intent(ChatListActivity.this, MainActivity.class);
                 startActivity(logoutIntent);
             }
@@ -119,13 +109,11 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
     }
 
     /* ------------------- Three Dots behavior in the Toolbar ------------------*/
-    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_chatlist,menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -139,12 +127,9 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
     }
 
     /* -------------------------- INIT DATA ------------------------------- */
-
     /* This is the most important function in the application. Its job is to initialize the data taken from the database.
-
- When a user log in tha application , it takes from the DB all the users with which a chat exists and create the chat inside
-
- the recyclerView using the Model class.
+     * When a user log in tha application , it takes from the DB all the users with which a chat exists and create the chat inside
+     * the recyclerView using the Model class.
      */
 
     private void initData() {
@@ -160,7 +145,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                 Intent intent = getIntent();
                 String userlogged = intent.getStringExtra("username");
 
-                //-----------------NO deletion---------------------------------
+                //----------------------- NO deletion ---------------------------------
                 if(rem == 0)
                 {
                     for(DataSnapshot ds : snapshot.getChildren()) {
@@ -179,8 +164,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                                         isNewElement = false;
                                         break;
                                     }
-
-
                                  }
 
                                 if (isNewElement) {
@@ -190,29 +173,20 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                                         userList.add(new ModelClass((String) element, "offline"));
                                     }
                                 }
-
-                        }
-
-
+                            }
                         }
                         adapter.notifyDataSetChanged();
-
-
                     }
                 }
 
-                // ---------------YES deletion---------------------------------
-                else if ( rem == 1) {
+                // ---------------------- YES deletion ---------------------------------
+                else if (rem == 1) {
                     for (DataSnapshot ds : snapshot.getChildren()) {
-
 
                         String usernameFromDB = ds.child("username").getValue(String.class);
                         boolean usernameStatusFromDB = ds.child("online").getValue(Boolean.class);
 
-
-
                         if (!usernameFromDB.equals(userlogged) && myList.contains(usernameFromDB)) {
-
 
                             for (i = 0; i < removedList.size(); i++) {
                                 Object element = removedList.get(i);
@@ -226,7 +200,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                                 }
 
                                 if (isNewElement) {
-
                                     Log.d("status username", Boolean.toString(usernameStatusFromDB));
 
                                     if (usernameStatusFromDB == true && usernameFromDB.equals(element)) {
@@ -235,17 +208,11 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                                         userList.add(new ModelClass((String) element, "offline"));
                                     }
                                 }
-
-
                             }
-
                         }
                         adapter.notifyDataSetChanged();
-
-
                     }
                 }
-
             }
 
             @Override
@@ -254,10 +221,9 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         });
 
 
-        /*Here we create the list of user with which there is an existed chat */
+        /*Here we created the list of user with which there is an existed chat */
 
         dbr.addListenerForSingleValueEvent(new ValueEventListener() {
-
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -279,21 +245,16 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
                         adapter.notifyDataSetChanged();
                     }
-
-
                 }
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
 
     /* ----------------- Graphical Inizialization ---------------------------------- */
-
     /* Function that initializes the RecyclerView that contains all the chats of the user logged */
 
     private void initRecyclerView() {
@@ -309,7 +270,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
 
     /* ------------------- OnItemClick -------------------------------- */
-
     /* When you click on a chat you will be redirected to ChatActivity */
 
     @Override
@@ -327,9 +287,8 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
     }
 
     /* ----------------------------------- Long Item Click --------------------------------- */
-
     /*   If you long click on the chat you would like to delete , the chat will disappear
-    *  if you delete a chat rem is setted to 1, in this way initData will use removedList as a
+    *  if you delete a chat rem is set to 1, in this way initData will use removedList as a
     * ist that contains all the previous chats*/
 
 
@@ -344,8 +303,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     String parent = ds.getKey();
-
-
 
                     if(parent.equals(other)) {
                         snapshot.child(other).getRef().setValue(null);
@@ -371,7 +328,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
 
     /* --------------------------- Auxiliary Function ------------------ */
-
     public static <String> ArrayList<String> removeDuplicates(ArrayList<String> list)
     {
 
@@ -438,7 +394,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
 

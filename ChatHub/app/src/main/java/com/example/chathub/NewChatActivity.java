@@ -34,8 +34,6 @@ public class NewChatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_chat);
 
@@ -58,7 +56,6 @@ public class NewChatActivity extends AppCompatActivity {
 
 
         /* Filling up a list that contains all the users in the database */
-
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

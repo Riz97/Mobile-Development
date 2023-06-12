@@ -16,8 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
 
+/* This class is used in conjunction with the RecyclerView to provide the data and create the views
+*  for individual items in the layout, it allows us to dynamically display the data (the chat list)
+*  in the ChatListActivity. */
+public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     private List<ModelClass> userList;
     private final RecyclerViewInterface recyclerViewInterface;
 
@@ -26,6 +29,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         this.recyclerViewInterface = recyclerViewInterface;
     }
 
+    /* This method is responsible for creating a new instance of the ViewHolder class. */
     @NonNull
     @Override
     public Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -33,6 +37,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         return new ViewHolder(view);
     }
 
+    /* This method is responsible for binding data to the views within a ViewHolder for a given
+    *  position in the data set. */
     @Override
     public void onBindViewHolder(@NonNull Adapter.ViewHolder holder, int position) {
         String name = userList.get(position).getTextViewUsername();
@@ -40,11 +46,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         holder.setData(name, status);
     }
 
+    /* This method return the number of users. */
     @Override
     public int getItemCount() {
         return userList.size();
     }
 
+    /* This class represents a single item view within the RecyclerView and is responsible for
+    *  holding references to the views within that item. */
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView textViewUsername;
         private TextView textViewStatus;
@@ -55,6 +64,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
             textViewUsername = itemView.findViewById(R.id.textViewUsername);
             textViewStatus = itemView.findViewById(R.id.textViewStatus);
 
+            // Set a Click Listener on each item of the RecyclerView
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -68,6 +78,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
                 }
             });
 
+            // Set a Long Click Listener on each item of the RecyclerView
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -83,6 +94,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
             });
         }
 
+        // Method that sets the data in the TextViews if each item in the RecyclerView
         public void setData(String name, String status) {
             textViewUsername.setText(name);
             textViewStatus.setText(status);
