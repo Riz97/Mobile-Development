@@ -43,6 +43,7 @@ public class NewChatActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         userlogged = intent.getStringExtra("userlogged");
+
         // showing the back button in action bar
         actionBar.setDisplayHomeAsUpEnabled(true);
         Button newChatButton = (Button)findViewById(R.id.buttonNew);
@@ -130,29 +131,36 @@ public class NewChatActivity extends AppCompatActivity {
            Intent i = new Intent(NewChatActivity.this, ChatActivity.class);
            String s = searchView.getQuery().toString();
            i.putExtra("username", userlogged);
-           i.putExtra("dest",s);
-           i.putExtra("new",1);
+           i.putExtra("dest", s);
+           i.putExtra("new", 1);
            //databaseReference.child(userlogged).child("dest").setValue(s);
 
-           databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-               @Override
-               public void onDataChange(@NonNull DataSnapshot snapshot) {
-                   String s = searchView.getQuery().toString();
-                   i.putExtra("dest",s);
+           if (usernames.contains(s)) {
+               adapter.getFilter().filter(s);
+               databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                   @Override
+                   public void onDataChange(@NonNull DataSnapshot snapshot) {
+                       String s = searchView.getQuery().toString();
+                       i.putExtra("dest", s);
 
-               }
+                   }
 
-               @Override
-               public void onCancelled(@NonNull DatabaseError error) {
+                   @Override
+                   public void onCancelled(@NonNull DatabaseError error) {
 
-               }
-           });
+                   }
+               });
 
 
-           startActivity(i);
+               startActivity(i);
 
-       }
-   });
+           } else {
+               Toast.makeText(NewChatActivity.this, "No Match found", Toast.LENGTH_LONG).show();
+
+           }
+
+
+       }});
 
 
 
@@ -174,14 +182,25 @@ public class NewChatActivity extends AppCompatActivity {
 
     /* ------------------------------------- OnPause and OnResume ----------------------------------*/
     /* Set the status of the User , online if the user is inside the activity and offline if the activity is paused */
-
     @Override
     protected void onPause(){
         super.onPause();
-
+        //Intent intent = getIntent();
+        //String userlogged = intent.getStringExtra("username");
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference("Messages");
 
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                snapshot.getRef().child(userlogged).child("online").setValue(false);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
@@ -189,15 +208,25 @@ public class NewChatActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-
+        //Intent intent = getIntent();
+        //String userlogged = intent.getStringExtra("username");
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference("Messages");
 
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                snapshot.getRef().child(userlogged).child("online").setValue(true);
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
     }
-
-
 
 }

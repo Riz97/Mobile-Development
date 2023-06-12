@@ -44,6 +44,7 @@ public class ChatActivity extends AppCompatActivity {
     MessageAdapter messageAdapter;
     List<MessageModel> list;
 
+    String userlogged;
     DatabaseReference databaseReference;
 
 
@@ -53,6 +54,9 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         ActionBar actionBar = getSupportActionBar();
+
+        Intent intent = getIntent();
+        userlogged = intent.getStringExtra("userlogged");
 
         // showing the back button in action bar
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -180,7 +184,56 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
+    /* ------------------------------------- OnPause and OnResume ----------------------------------*/
+    /* Set the status of the User , online if the user is inside the activity and offline if the activity is paused */
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Intent intent = getIntent();
+        String userlogged = intent.getStringExtra("username");
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
+        databaseReference = database.getReference("Messages");
 
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                snapshot.getRef().child(userlogged).child("online").setValue(false);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Intent intent = getIntent();
+        String userlogged = intent.getStringExtra("username");
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
+        databaseReference = database.getReference("Messages");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                snapshot.getRef().child(userlogged).child("online").setValue(true);
+                Log.d("utente loggato onresume", userlogged);
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+    }
 
 
 }

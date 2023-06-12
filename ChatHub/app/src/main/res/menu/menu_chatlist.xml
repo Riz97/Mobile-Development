@@ -5,7 +5,7 @@
 
 
     <item
-        android:id="@+id/refresh" android:icon="@android:drawable/ic_dialog_info"  android:title="Refresh User Status">
+        android:id="@+id/refresh" android:icon="@android:drawable/ic_dialog_info"  android:title="Refresh User Status and Chats">
     </item>
 
 </menu>

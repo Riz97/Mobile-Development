@@ -43,8 +43,10 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
     String newChatUser = "";
     int i = 0;
     List myList = new ArrayList<String>();
+    List removedList = new ArrayList<String>();
     ArrayList list_aux = new  ArrayList<String>() ;
 
+    int rem = 0; // Variable used for understand from which list we are taking the chats
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,21 +59,17 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         userlogged = intent.getStringExtra("username");
         newChatUser = intent.getStringExtra("dest");
 
-        Log.d("USER_LOGGED", "User logged:" + userlogged);
 
-        String foo = intent.getStringExtra("dest");
-        int foo1 = intent.getIntExtra("new",0);
 
-        if(foo1 == 1)
-        {
-            Log.d("test",foo);
-        }
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
+
+        /* ---------------- MAIN ------------------ */
 
         initData();
         initRecyclerView();
 
+
+        /* ----------------------- New Chat Button behavior --------------------- */
 
         // Click Listener for the "New Chat" button
         Button newChatButton = (Button) findViewById(R.id.buttonNewChat);
@@ -84,6 +82,11 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                 startActivity(newChatIntent);
             }
         });
+
+
+        /* ------------------ LogOut Button Behaviour -------------------- */
+
+        /* When clicked it sets the status of the user to offline and it redirects him to the Login */
 
         // Click Listener for the "Logout" button
         Button logoutButton = (Button) findViewById(R.id.buttonLogout);
@@ -113,27 +116,9 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
 
 
-        List<String> usernames = new ArrayList<String>();
-        databaseReference = database.getReference("Users");
-
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for(DataSnapshot ds : snapshot.getChildren()) {
-                    String usernameFromDB = ds.child("username").getValue(String.class);
-                    usernames.add(usernameFromDB);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
     }
 
+    /* ------------------- Three Dots behavior in the Toolbar ------------------*/
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -153,6 +138,14 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         return super.onOptionsItemSelected(item);
     }
 
+    /* -------------------------- INIT DATA ------------------------------- */
+
+    /* This is the most important function in the application. Its job is to initialize the data taken from the database.
+
+ When a user log in tha application , it takes from the DB all the users with which a chat exists and create the chat inside
+
+ the recyclerView using the Model class.
+     */
 
     private void initData() {
 
@@ -167,50 +160,81 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                 Intent intent = getIntent();
                 String userlogged = intent.getStringExtra("username");
 
+                //-----------------NO deletion---------------------------------
+                if(rem == 0)
+                {
+                    for(DataSnapshot ds : snapshot.getChildren()) {
+                        String usernameFromDB = ds.child("username").getValue(String.class);
+                        boolean usernameStatusFromDB = ds.child("online").getValue(Boolean.class);
 
-                for(DataSnapshot ds : snapshot.getChildren()) {
-                    String usernameFromDB = ds.child("username").getValue(String.class);
-                    boolean usernameStatusFromDB = ds.child("online").getValue(Boolean.class);
+                        if (!usernameFromDB.equals(userlogged) && myList.contains(usernameFromDB) ) {
 
-                    if (!usernameFromDB.equals(userlogged) && myList.contains(usernameFromDB) ) {
-                            /*
+                            //Avoid repetition of chats
                             for (i = 0; i < myList.size(); i++) {
+                                Object element = myList.get(i);
 
-                                Log.d("LIST", myList.get(i).toString());
-
-                                if (usernameStatusFromDB == true) {
-                                    userList.add(new ModelClass((String) myList.get(i), "online"));
-                                } else {
-                                    userList.add(new ModelClass((String) myList.get(i), "offline"));
+                                boolean isNewElement = true;
+                                for (ModelClass model : userList) {
+                                    if (model.getTextViewUsername().equals(element)) {
+                                        isNewElement = false;
+                                        break;
+                                    }
                                 }
-                             */
 
-                        for (i = 0; i < myList.size(); i++) {
-                            Object element = myList.get(i);
-                            Log.d("LIST", element.toString());
-
-                            boolean isNewElement = true;
-                            for (ModelClass model : userList) {
-                                if (model.getTextViewUsername().equals(element)) {
-                                    isNewElement = false;
-                                    break;
+                                if (isNewElement) {
+                                    if (usernameStatusFromDB == true) {
+                                        userList.add(new ModelClass((String) element, "online"));
+                                    } else {
+                                        userList.add(new ModelClass((String) element, "offline"));
+                                    }
                                 }
+
+
                             }
-
-                            if (isNewElement) {
-                                if (usernameStatusFromDB == true) {
-                                    userList.add(new ModelClass((String) element, "online"));
-                                } else {
-                                    userList.add(new ModelClass((String) element, "offline"));
-                                }
-                            }
-
 
                         }
-                        //i++;
-                    }
-                    adapter.notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();
 
+
+                    }
+                }
+
+                // ---------------YES deletion---------------------------------
+                else if ( rem == 1) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        String usernameFromDB = ds.child("username").getValue(String.class);
+                        boolean usernameStatusFromDB = ds.child("online").getValue(Boolean.class);
+
+                        if (!usernameFromDB.equals(userlogged) && myList.contains(usernameFromDB)) {
+
+
+                            for (i = 0; i < removedList.size(); i++) {
+                                Object element = removedList.get(i);
+
+                                boolean isNewElement = true;
+                                for (ModelClass model : userList) {
+                                    if (model.getTextViewUsername().equals(element)) {
+                                        isNewElement = false;
+                                        break;
+                                    }
+                                }
+
+                                if (isNewElement) {
+                                    if (usernameStatusFromDB == true) {
+                                        userList.add(new ModelClass((String) element, "online"));
+                                    } else {
+                                        userList.add(new ModelClass((String) element, "offline"));
+                                    }
+                                }
+
+
+                            }
+
+                        }
+                        adapter.notifyDataSetChanged();
+
+
+                    }
                 }
 
             }
@@ -220,6 +244,8 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
             }
         });
 
+
+        /*Here we create the list of user with which there is an existed chat */
 
         dbr.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -233,14 +259,18 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
                     if(!parent.equals("dest")){
                         list_aux.add(parent);
+
+                        //Get rid of useless keys
                         list_aux.remove("online");
                         list_aux.remove("password");
                         list_aux.remove("username");
                         list_aux.remove("dest");
 
                         myList = removeDuplicates(list_aux);
-                        Log.d("Lista all'inizio ", myList.toString());
+
+                        adapter.notifyDataSetChanged();
                     }
+
 
                 }
 
@@ -252,6 +282,10 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
             }
         });
     }
+
+    /* ----------------- Graphical Inizialization ---------------------------------- */
+
+    /* Function that initializes the RecyclerView that contains all the chats of the user logged */
 
     private void initRecyclerView() {
         recyclerView = findViewById(R.id.recyclerView);
@@ -265,6 +299,9 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
 
 
+    /* ------------------- OnItemClick -------------------------------- */
+
+    /* When you click on a chat you will be redirected to ChatActivity */
 
     @Override
     public void onItemClick(int position) {
@@ -280,6 +317,13 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         startActivity(chatIntent);
     }
 
+    /* ----------------------------------- Long Item Click --------------------------------- */
+
+    /*   If you long click on the chat you would like to delete , the chat will disappear
+    *  if you delete a chat rem is setted to 1, in this way initData will use removedList as a
+    * ist that contains all the previous chats*/
+
+
     @Override
     public void onItemLongClick(int position) {
 
@@ -292,13 +336,14 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     String parent = ds.getKey();
 
-                    Log.d("stronzi con cui messaggio",parent.toString());
-                    Log.d("Stronzo da cancellare", other);
+
 
                     if(parent.equals(other)) {
                         snapshot.child(other).getRef().setValue(null);
                         myList.remove(other);
-                        Log.d("lista alla cancellazione",parent);
+
+                        removedList = myList;
+                        rem = 1;
                     }
                 }
                 adapter.notifyDataSetChanged();
@@ -353,7 +398,6 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 snapshot.getRef().child(userlogged).child("online").setValue(false);
-                Log.d("onstop",userlogged.toString());
             }
 
             @Override
@@ -373,11 +417,14 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://chathub-caprile-benvenuto-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference("Messages");
 
+
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 snapshot.getRef().child(userlogged).child("online").setValue(true);
-                Log.d("onstop",userlogged.toString());
+                initData();
+                initRecyclerView();
+
             }
 
             @Override
@@ -385,6 +432,7 @@ public class ChatListActivity extends AppCompatActivity implements RecyclerViewI
 
             }
         });
+
 
 
     }
