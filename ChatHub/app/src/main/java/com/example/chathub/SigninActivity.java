@@ -57,7 +57,7 @@ public class SigninActivity extends AppCompatActivity {
 
         // In this part we populate the lists. In this way users cannot create profiles with the same username
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseMessagesReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
